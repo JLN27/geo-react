@@ -1,5 +1,5 @@
 import './App.css'
-import { LoginRegister } from './LoginRegister'
+import { LoginRegister } from './auth/LoginRegister'
 
 function App() {
   return (
