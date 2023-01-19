@@ -2,23 +2,49 @@ import { useState } from 'react';
 import React from 'react';
 
 export const Login = ({setLogin}) => {
-    let [name, setName] = useState("");
+    let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+
     const sendLogin = (e) => {
         e.preventDefault();
-    
-        alert("He enviat les Dades:  " + name + "/" + password);
+
+    console.log("Comprovant credencials....");
+    // Enviam dades a l'aPI i recollim resultat
+    fetch("https://backend.insjoaquimmir.cat/api/login", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({ email: email, password: password })
+    })
+      .then((data) => data.json())
+      .then((resposta) => {
+        console.log(resposta);
+        if (resposta.success === true) {
+          alert(resposta.authToken);
+        }else{
+          alert(resposta.message);
+
+        }
+      })
+      .catch((data) => {
+        console.log(data);
+        alert("Catchch");
+      });
+
+        alert("He enviat les Dades:  " + email + "/" + password);
     ;}
   return (
     <div className="form">
         <div className="title">Log in</div>
         <div className="input-container ic1">
-            <input id="emailOrUsername" className="input" type="text" placeholder=" "
+            <input id="email" className="input" type="text" placeholder=" "
             onChange={(e) => {
-            setName(e.target.value);
+            setEmail(e.target.value);
           }}/>
             <div className="cut"></div>
-            <label htmlFor="emailOrUsername" className="placeholder">EmailOrUsername</label>
+            <label htmlFor="email" className="placeholder">Email</label>
         </div>
         <div className="input-container ic2">
             <input id="password" className="input" type="password" placeholder=" " 

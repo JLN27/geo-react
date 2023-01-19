@@ -16,7 +16,7 @@ export const Register = ({setLogin}) => {
     const handleRegister = (e) => {
       e.preventDefault();
   
-      let { age, name, email, password } = formulari;
+      let { age, name, email, password, password2 } = formulari;
       alert(
         "He enviat les Dades:  " +
           age +
@@ -25,8 +25,37 @@ export const Register = ({setLogin}) => {
           "/" +
           email +
           "/" +
-          password
+          password +
+          "/" +
+          password2
       );
+      if (password2 !== password) {
+        alert("Els passwords han de coincidir");
+        return false;
+      }
+  
+      fetch("https://backend.insjoaquimmir.cat/api/register", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        // Si els noms i les variables coincideix, podem simplificar
+        body: JSON.stringify({ age, name, email, password })
+      })
+        .then((data) => data.json())
+        .then((resposta) => {
+          console.log(resposta);
+          if (resposta.success === true) {
+            alert(resposta.authToken);
+          }
+        })
+        .catch((data) => {
+          console.log(data);
+          alert("Catchch");
+        });
+  
+      alert("He enviat les Dades:  " + email + "/" + password);
     };
   return (
     <div className="form">
@@ -50,6 +79,11 @@ export const Register = ({setLogin}) => {
             <input id="password" name="password" className="input" type="password" placeholder=" "  onChange={handleChange}/>
             <div className="cut cut-short"></div>
             <label htmlFor="password" className="placeholder">Password</label>
+        </div>
+        <div className="input-container ic2">
+            <input id="password2" name="password2" className="input" type="password" placeholder=" "  onChange={handleChange}/>
+            <div className="cut cut-short"></div>
+            <label htmlFor="password2" className="placeholder">Repetir password</label>
         </div>
         <button type="text" className="submit"
         onClick={(e) => {
