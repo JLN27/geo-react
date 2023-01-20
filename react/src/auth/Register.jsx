@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import React from 'react'
+import { useContext } from "react";
+import { UserContext } from "../userContext";
+
+
 
 export const Register = ({setLogin}) => {
     let [formulari, setFormulari] = useState({});
+    let { authToken,setAuthToken } = useContext(UserContext);
+
 
     const handleChange = (e) => {
       e.preventDefault();
@@ -47,6 +53,7 @@ export const Register = ({setLogin}) => {
         .then((resposta) => {
           console.log(resposta);
           if (resposta.success === true) {
+            setAuthToken(resposta.authToken);
             alert(resposta.authToken);
           }
         })

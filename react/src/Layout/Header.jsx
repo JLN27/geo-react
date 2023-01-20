@@ -7,9 +7,8 @@ export default function Header() {
 
   return (
     <>
-      <div>
-        <Link to="/footer">Footer </Link>
-        <Link to="/about">About </Link>
+      <div class="header">
+      <Link to="/about">About </Link>
         Token: <strong>{authToken}</strong>
       </div>
       <hr />

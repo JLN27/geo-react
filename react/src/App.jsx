@@ -10,7 +10,7 @@ import About from "./About";
 
 
 function App() {
-  let [authToken, setAuthToken] = useState("abcd");
+  let [authToken, setAuthToken] = useState("");
 
   return (
     <>
@@ -18,10 +18,14 @@ function App() {
       value={{ authToken, setAuthToken }}
       // { authToken, setAuthToken } equival a  { authToken: authToken, setAuthToken:setAuthToken}
     >
+     
       {authToken ? (
         <>
           <Header />
-
+          <Routes>
+              <Route path="/about" element={<About />} />
+          </Routes>
+          <Footer />
         </>
       ) : (
         <LoginRegister />
