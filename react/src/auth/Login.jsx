@@ -8,36 +8,31 @@ export const Login = ({setLogin}) => {
     let [password, setPassword] = useState("");
     let { authToken,setAuthToken } = useContext(UserContext);
 
-    const sendLogin = (e) => {
+    const sendLogin = async(e) => {
         e.preventDefault();
+        try{
+          const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify({ email: email, password: password })
+          });
+          
+          const resposta = await data.json();
+          if (resposta.success === true) alert(resposta.authToken), setAuthToken(resposta.authToken);
 
-      console.log("Comprovant credencials....");
-      // Enviam dades a l'aPI i recollim resultat
-      fetch("https://backend.insjoaquimmir.cat/api/login", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify({ email: email, password: password })
-      })
-        .then((data) => data.json())
-        .then((resposta) => {
-          console.log(resposta);
-          if (resposta.success === true) {
-            setAuthToken(resposta.authToken);
-            alert(resposta.authToken);
-          }else{
-            alert(resposta.message);
 
-          }
-        })
-        .catch((data) => {
-          console.log(data);
-          alert("Catchch");
-        });
+          else alert("La resposta no ha triomfat");
+
           alert("He enviat les Dades:  " + email + "/" + password);
-    ;}
+
+        }catch{
+          console.log("Error");
+          alert("catch");
+        }
+      };
 
   return (
     <div className="form">

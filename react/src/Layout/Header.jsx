@@ -6,6 +6,7 @@ export default function Header() {
   //Modificar token
   let { authToken, setAuthToken } = useContext(UserContext);
   let [ userName, setUserName ] = useState("");
+  let [ roles, setRoles] = useState([]);
 
   //Guardar el nombre de usuario
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function Header() {
       console.log(resposta);
       if (resposta.success === true) {
         setUserName(resposta.user.name);
+        setRoles(resposta.roles);
       }
     })
   }, [])
@@ -59,7 +61,10 @@ export default function Header() {
         <Link to="/places"> Places </Link>
         <Link to="/posts">Posts </Link>
         
-        <h1>{userName}</h1>
+        <h3>{userName}</h3>
+        { roles.map (  (v)=> ( 
+          <span key={v}> {v} </span>
+        ) ) }
         {/*Ejecutar funcion sendLogout onClick */}
         <button
         onClick={(e) => {
