@@ -19,9 +19,9 @@ export const Register = ({setLogin}) => {
         [e.target.name]: e.target.value
       });
     };
-    const handleRegister = (e) => {
+    const handleRegister = async(e) => {
       e.preventDefault();
-  
+      
       let { age, name, email, password, password2 } = formulari;
       alert(
         "He enviat les Dades:  " +
@@ -39,30 +39,28 @@ export const Register = ({setLogin}) => {
         alert("Els passwords han de coincidir");
         return false;
       }
-  
-      fetch("https://backend.insjoaquimmir.cat/api/register", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        method: "POST",
-        // Si els noms i les variables coincideix, podem simplificar
-        body: JSON.stringify({ age, name, email, password })
-      })
-        .then((data) => data.json())
-        .then((resposta) => {
-          console.log(resposta);
-          if (resposta.success === true) {
-            setAuthToken(resposta.authToken);
-            alert(resposta.authToken);
-          }
+      try{
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/register", {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          // Si els noms i les variables coincideix, podem simplificar
+          body: JSON.stringify({ age, name, email, password })
         })
-        .catch((data) => {
-          console.log(data);
-          alert("Catchch");
-        });
-  
-      alert("He enviat les Dades:  " + email + "/" + password);
+        const resposta = await data.json();
+        if (resposta.success === true) alert(resposta.authToken), setAuthToken(resposta.authToken);
+
+        else alert("La resposta no ha triomfat");
+
+        alert("He enviat les Dades:  " + email + "/" + password);
+          
+      }catch{
+        console.log("Error");
+        alert("catch");
+      }
+      
     };
   return (
     <div className="form">
