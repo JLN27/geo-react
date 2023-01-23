@@ -11,34 +11,34 @@ export const Login = ({setLogin}) => {
     const sendLogin = (e) => {
         e.preventDefault();
 
-    console.log("Comprovant credencials....");
-    // Enviam dades a l'aPI i recollim resultat
-    fetch("https://backend.insjoaquimmir.cat/api/login", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({ email: email, password: password })
-    })
-      .then((data) => data.json())
-      .then((resposta) => {
-        console.log(resposta);
-        if (resposta.success === true) {
-          setAuthToken(resposta.authToken);
-          alert(resposta.authToken);
-        }else{
-          alert(resposta.message);
-
-        }
+      console.log("Comprovant credencials....");
+      // Enviam dades a l'aPI i recollim resultat
+      fetch("https://backend.insjoaquimmir.cat/api/login", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({ email: email, password: password })
       })
-      .catch((data) => {
-        console.log(data);
-        alert("Catchch");
-      });
+        .then((data) => data.json())
+        .then((resposta) => {
+          console.log(resposta);
+          if (resposta.success === true) {
+            setAuthToken(resposta.authToken);
+            alert(resposta.authToken);
+          }else{
+            alert(resposta.message);
 
-        alert("He enviat les Dades:  " + email + "/" + password);
+          }
+        })
+        .catch((data) => {
+          console.log(data);
+          alert("Catchch");
+        });
+          alert("He enviat les Dades:  " + email + "/" + password);
     ;}
+
   return (
     <div className="form">
         <div className="title">Log in</div>
