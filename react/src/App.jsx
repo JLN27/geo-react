@@ -14,6 +14,8 @@ import { PlaceAdd } from './places/PlaceAdd';
 import { Place } from './places/Place';
 import { PlacesGrid } from './places/PlacesGrid';
 import { PlacesList } from './places/PlacesList';
+import { PlacesMenu } from './places/PlacesMenu';
+
 
 function App() {
   let [authToken, setAuthToken] = useState("");
@@ -31,15 +33,15 @@ function App() {
           <Routes>
               <Route path="*" element={<NotFound />} />
               <Route path="/about" element={<About />} />
-              <Route path="/" element={<Places />} />
+              <Route path="/" element={<><PlacesMenu /><Places /> </>} />
               <Route path="/posts" element={<Posts />} />
-              <Route path="/places" element={<Places/>} />
+              <Route path="/places" element={<><PlacesMenu /><Places /> </>} />
               
-              <Route path="/places/:id" element={<Place />} />
-              <Route path="/places/add" element={<PlaceAdd />} />
-              <Route path="/places/edit/:id" element={<PlaceEdit />} />
-              <Route path="/places/grid" element={<PlacesGrid />} />
-              <Route path="/places/list" element={<PlacesList />} />
+              <Route path="/places/:id" element={<><PlacesMenu /> <Place /></>} />
+              <Route path="/places/add" element={<><PlacesMenu /><PlaceAdd /> </>} />
+              <Route path="/places/edit/:id" element={<><PlacesMenu /><PlaceEdit /> </>} />
+              <Route path="/places/grid" element={<><PlacesMenu /><PlacesGrid /> </>} />
+              <Route path="/places/list" element={<><PlacesMenu /><PlacesList /> </>} />
           </Routes>
           <Footer />
         </>

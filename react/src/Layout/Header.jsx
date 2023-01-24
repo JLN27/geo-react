@@ -22,7 +22,7 @@ export default function Header() {
       })
       const resposta = await data.json();
       if (resposta.success === true) setUserName(resposta.user.name), setRoles(resposta.roles);
-
+      
       else alert("La resposta no a triomfat");
 
       }catch{
@@ -72,7 +72,7 @@ export default function Header() {
         <Link to="/places"> Places </Link>
         <Link to="/posts">Posts </Link>
         
-        <h3>{userName}</h3>
+        <p>{userName}</p>
         { roles.map (  (v)=> ( 
           <span key={v}> {v} </span>
         ) ) }

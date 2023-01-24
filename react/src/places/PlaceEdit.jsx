@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams } from "react-router-dom";
 
 export const PlaceEdit = () => {
-    let { id } = useParams();
+    const { id } = useParams();
 
   return (
     <div>PlaceEdit {id}</div>
