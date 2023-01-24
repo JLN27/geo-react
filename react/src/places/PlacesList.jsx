@@ -29,15 +29,20 @@ export const PlacesList = () => {
       }
       
   }
-  useEffect(() => {
-  savePlaces();
-  }, [])
-  places.map(setPlace)
+  useEffect(() => { savePlaces(); }, []);
+
+  
   return (
     <>
       <div>PlacesList</div>
-      {places.map(
-     place => <li key={place.id}> {place.id} {place.name} {place.description}</li>)}
+      <table>
+     { places.map (  (place)=> ( 
+       
+         <tbody key={place.id}><PlaceList place={place} /></tbody>
+       
+        ) ) }
+        </table>
     </>
+
   )
 }
