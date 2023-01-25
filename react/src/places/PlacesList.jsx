@@ -5,7 +5,6 @@ import { PlaceList } from './PlaceList'
 export const PlacesList = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
   let [places, setPlaces] = useState([]);
-  let [place, setPlace] = useState([]);
 
   const savePlaces = async(e) => {
     try{
@@ -36,12 +35,30 @@ export const PlacesList = () => {
     <>
       <div>PlacesList</div>
       <table>
-     { places.map (  (place)=> ( 
-       
-         <tbody key={place.id}><PlaceList place={place} /></tbody>
-       
-        ) ) }
-        </table>
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Favorites</th>
+            <th>Reviews</th>
+            <th>Visibility</th>
+            <th>view</th>
+            <th>edit</th>
+            <th>delete</th>
+
+          </tr>
+
+        
+          { places.map (  (place)=> ( 
+              <tr key={place.id}>
+                <PlaceList place={place} />
+              </tr>  
+          ) ) }
+        </tbody>
+      </table>
     </>
 
   )

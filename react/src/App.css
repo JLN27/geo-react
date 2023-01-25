@@ -133,3 +133,10 @@ body {
   font-size: 30px;
   width: 100%;
   }
+
+table,td, th{
+  border: solid white 1px;
+  border-collapse: collapse;
+  padding-left: 10px;
+  padding-right: 10px;
+}
