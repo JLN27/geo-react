@@ -67,22 +67,29 @@ export default function Header() {
     <>
         
       <div className="header">
-        {/*Enlaces  */}
-        <Link to="/about">About </Link>
-        <Link to="/places"> Places </Link>
-        <Link to="/posts">Posts </Link>
+        <div className="left">
+          <button>
+            <Link to="/places"> Places </Link>
+          </button>
+          <button>
+            <Link to="/posts">Posts </Link>
+          </button>
+        </div>
+        <div className="right">
+          <span>{userName}</span>
+          { roles.map (  (v)=> ( 
+            <span key={v}> {v} </span>
+          ) )  }
+
+          <button
+          onClick={(e) => {
+            sendLogout(e);
+          }}>
+            Logout
+          </button>
+        </div>
         
-        <p>{userName}</p>
-        { roles.map (  (v)=> ( 
-          <span key={v}> {v} </span>
-        ) ) }
-        {/*Ejecutar funcion sendLogout onClick */}
-        <button
-        onClick={(e) => {
-          sendLogout(e);
-        }}>
-          Logout
-        </button>
+        
       </div>
       <hr />
     </>

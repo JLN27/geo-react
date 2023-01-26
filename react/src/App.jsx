@@ -1,6 +1,6 @@
-import './App.css'
+import './App.css';
 import { useState } from 'react';
-import { LoginRegister } from './auth/LoginRegister'
+import { LoginRegister } from './auth/LoginRegister';
 import { UserContext } from "./userContext";
 import { Routes, Route, Router, useParams } from "react-router-dom";
 import Header from "./Layout/Header";

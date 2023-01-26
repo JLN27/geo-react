@@ -1,4 +1,8 @@
 export default function Footer() {
-    return <h1>Coses que farem !! </h1>;
+    return (
+        <div className="footer">
+          <h1>Coses que farem !! </h1>
+        </div>
+    )
   }
   
