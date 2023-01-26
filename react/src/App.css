@@ -163,6 +163,8 @@ body {
 
 .header{
 	height: 7vh;
+	border-bottom: 1px solid #4C489D;
+	
 }
 
 .left {
@@ -171,7 +173,55 @@ body {
 
 .right{
 	float: right;
+	display: flex;
+	justify-content: center;
+	margin: 1vh;
 }
+
+.btn{
+	width: 10vh;
+	height: 4.5vh;
+	margin: 1vh;
+	margin-left: 4vh;
+	padding: 1vh;
+	transition-duration: 0.4s;
+	float: left;
+	background-color: #C7C5F4;
+	color: #4C489D;
+	border: 2px solid #4C489D;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	border-radius: 1vh;
+	font-weight: bold;
+}
+.btn:hover{
+	background-color: #4C489D;
+	color: white;
+}
+
+.username{
+	color: #4C489D;
+	font-weight: bold;
+	font-size: 4vh;
+	margin-right: 1vh;
+}
+
+.role{
+	color: #4C489D;
+	font-weight: bold;
+	font-size: 2vh;
+	margin-right: 1vh;
+	margin-top: 1vh;
+}
+
+.btn-logout{
+	margin: 0;
+
+}
+/*//////////////////////////////////////////////////
+//////////////////// FOOTER ///////////////////////
+////////////////////////////////////////////////*/
 
 .footer{
 	position:fixed;
@@ -179,3 +229,6 @@ body {
 	bottom: 0px;
 
 }
+
+
+

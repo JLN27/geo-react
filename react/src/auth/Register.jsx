@@ -101,7 +101,7 @@ export const Register = ({setLogin}) => {
               onClick={() => {
                 setLogin(false);
               }}>
-              <span className="button__text">Not registered?</span>
+              <span className="button__text">Already Registered?</span>
               <i className="button__icon fas fa-chevron-right"></i>
             </button>	
 

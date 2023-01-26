@@ -60,28 +60,37 @@ export default function Header() {
     
   ;}
 
-  
-
 
   return (
     <>
         
       <div className="header">
         <div className="left">
-          <button>
-            <Link to="/places"> Places </Link>
-          </button>
-          <button>
-            <Link to="/posts">Posts </Link>
-          </button>
+
+          
+          <Link to="/places"> 
+            <div className="btn">
+              Places
+            </div>
+          </Link>
+          
+          
+          <Link to="/posts">
+            <div className="btn">
+              Posts
+            </div>
+          </Link>
+          
+
         </div>
+
         <div className="right">
-          <span>{userName}</span>
+          <span className="username">{userName}</span>
           { roles.map (  (v)=> ( 
-            <span key={v}> {v} </span>
+            <span className="role" key={v}> {v} </span>
           ) )  }
 
-          <button
+          <button className="btn btn-logout"
           onClick={(e) => {
             sendLogout(e);
           }}>
@@ -91,7 +100,6 @@ export default function Header() {
         
         
       </div>
-      <hr />
     </>
   );
 }
