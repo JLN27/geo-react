@@ -12,6 +12,9 @@ export const PlaceList = ({place}) => {
         <td>{place.favorites_count}</td>
         <td>{place.reviews_count}</td>
         <td>{place.visibility.name}</td>
+        <td><i class="bi bi-eye"></i></td>
+        <td><i class="bi bi-pencil-square"></i></td>
+        <td><i class="bi bi-trash3"></i></td>
     </>
         
 
