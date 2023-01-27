@@ -33,8 +33,7 @@ export const PlacesList = () => {
   
   return (
     <>
-      <div>PlacesList</div>
-      <table>
+      <table className='table-placesList'>
         <tbody>
         <tr>
             <th>Id</th>

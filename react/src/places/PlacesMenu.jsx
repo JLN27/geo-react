@@ -4,9 +4,19 @@ import { Link } from "react-router-dom";
 export const PlacesMenu = () => {
   return (
     <>
-        <Link to="/places/add">Añadir Entrada </Link>
-        <Link to="/places/grid"> Grid </Link>
-        <Link to="/places/list"> List </Link>
+      <div className='placesMenu'>
+        <Link to="/places/add" className='btn-placesMenu'>
+            Añadir Entrada
+        </Link>
+
+        <Link to="/places/grid" className='btn-placesMenu'>
+            Grid
+        </Link>
+        
+        <Link to="/places/list" className='btn-placesMenu'>
+            List
+        </Link>
+      </div>
     </>
   )
 }

@@ -33,7 +33,6 @@ export const PlacesGrid = () => {
   
   return (
     <>
-      <div>PlacesList</div>  
           { places.map (  (place)=> ( 
               <div key={place.id}>
                 <PlaceGrid place={place} />

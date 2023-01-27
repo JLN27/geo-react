@@ -52,7 +52,7 @@ body {
 .screen__background__shape1 {
 	height: 520px;
 	width: 520px;
-	background: #FFF;	
+	background: #fff;	
 	top: -50px;
 	right: 120px;	
 	border-radius: 0 72px 0 0;
@@ -220,6 +220,35 @@ body {
 
 }
 /*//////////////////////////////////////////////////
+//////////////////// PLACES MENU //////////////////
+////////////////////////////////////////////////*/
+
+.placesMenu{
+
+	border-bottom: #4C489D 1px solid;
+	display: flex;
+	
+}
+
+.btn-placesMenu{
+	border-right: #4C489D solid 1px;
+	text-decoration: none;
+	font-weight: bold;
+	padding: 1vh;
+	padding-left: 3vh;
+	padding-right: 3vh;
+	transition-duration: 0.4s;
+	background-color: #C7C5F4;
+	color: #4C489D;
+	justify-content: center;
+	font-weight: bold;
+}
+.btn-placesMenu:hover{
+	background-color: #4C489D;
+	color: white;
+}
+
+/*//////////////////////////////////////////////////
 //////////////////// FOOTER ///////////////////////
 ////////////////////////////////////////////////*/
 
@@ -230,5 +259,19 @@ body {
 
 }
 
+/*//////////////////////////////////////////////////
+//////////////////// PLACES LIST //////////////////
+////////////////////////////////////////////////*/
 
-
+.table-placesList{
+	position: absolute; /*Can also be `fixed`*/
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	/*Solves a problem in which the content is being cut when the div is smaller than its' wrapper:*/
+	max-width: 100%;
+	max-height: 100%;
+	overflow: auto;
+}
