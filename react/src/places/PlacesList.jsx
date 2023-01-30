@@ -53,7 +53,7 @@ export const PlacesList = () => {
         
           { places.map (  (place)=> ( 
               <tr key={place.id}>
-                <PlaceList place={place} />
+                {(place.visibility.name == 'public') ? <PlaceList place={place} /> : <></>}
               </tr>  
           ) ) }
         </tbody>
