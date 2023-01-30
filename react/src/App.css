@@ -23,7 +23,7 @@ body {
 .screen {		
 	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
 	position: relative;	
-	height: 600px;
+	height: 700px;
 	width: 360px;	
 	box-shadow: 0px 0px 24px #5C5696;
 }
@@ -265,14 +265,6 @@ body {
 ////////////////////////////////////////////////*/
 
 .table-placesList{
-	position: absolute; /*Can also be `fixed`*/
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	margin: auto;
-	/*Solves a problem in which the content is being cut when the div is smaller than its' wrapper:*/
-	max-width: 100%;
-	max-height: 100%;
-	overflow: auto;
+	margin-top: 10vh;
+
 }

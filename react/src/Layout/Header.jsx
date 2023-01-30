@@ -32,7 +32,7 @@ export default function Header() {
       
   }
   useEffect(() => {
-  savename();
+    savename();
   }, [])
   
     
