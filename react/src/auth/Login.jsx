@@ -6,7 +6,7 @@ import { UserContext } from "../userContext";
 export const Login = ({setLogin}) => {
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
-    let { authToken,setAuthToken } = useContext(UserContext);
+    let {userEmail, setUserEmail, authToken,setAuthToken } = useContext(UserContext);
 
     const sendLogin = async(e) => {
         e.preventDefault();
@@ -21,12 +21,11 @@ export const Login = ({setLogin}) => {
           });
           
           const resposta = await data.json();
-          if (resposta.success === true) alert(resposta.authToken), setAuthToken(resposta.authToken);
+          if (resposta.success === true)  setAuthToken(resposta.authToken),setUserEmail(email);
 
 
           else alert("La resposta no ha triomfat");
 
-          alert("He enviat les Dades:  " + email + "/" + password);
 
         }catch{
           console.log("Error");

@@ -2,8 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from "../userContext";
 import { PlaceList } from './PlaceList'
 
+
+
 export const PlacesList = () => {
-  let { authToken, setAuthToken } = useContext(UserContext);
+  let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext);
   let [places, setPlaces] = useState([]);
 
   const savePlaces = async(e) => {
@@ -49,13 +51,13 @@ export const PlacesList = () => {
             <th>delete</th>
 
           </tr>
+          
+          { places.map ( (place)=> (
+              (place.visibility.name != 'private' || userEmail == place.author.email) &&
+              (<tr key={place.id}>
+              <PlaceList place={place} /></tr>)
+          ))}
 
-        
-          { places.map (  (place)=> ( 
-              <tr key={place.id}>
-                {(place.visibility.name == 'public') ? <PlaceList place={place} /> : <></>}
-              </tr>  
-          ) ) }
         </tbody>
       </table>
     </>

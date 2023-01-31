@@ -7,7 +7,7 @@ import { UserContext } from "../userContext";
 
 export const Register = ({setLogin}) => {
     let [formulari, setFormulari] = useState({});
-    let { authToken,setAuthToken } = useContext(UserContext);
+    let {userEmail,setUserEmail, authToken,setAuthToken } = useContext(UserContext);
 
 
     const handleChange = (e) => {
@@ -23,16 +23,7 @@ export const Register = ({setLogin}) => {
       e.preventDefault();
       
       let { name, email, password, password2 } = formulari;
-      alert(
-        "He enviat les Dades:  " +
-          name +
-          "/" +
-          email +
-          "/" +
-          password +
-          "/" +
-          password2
-      );
+      
       if (password2 !== password) {
         alert("Els passwords han de coincidir");
         return false;
@@ -48,11 +39,9 @@ export const Register = ({setLogin}) => {
           body: JSON.stringify({ name, email, password })
         })
         const resposta = await data.json();
-        if (resposta.success === true) alert(resposta.authToken), setAuthToken(resposta.authToken);
+        if (resposta.success === true)  setAuthToken(resposta.authToken), setUserEmail(email);
 
         else alert("La resposta no ha triomfat");
-
-        alert("He enviat les Dades:  " + email + "/" + password);
           
       }catch{
         console.log("Error");

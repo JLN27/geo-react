@@ -19,12 +19,12 @@ import { PlacesMenu } from './places/PlacesMenu';
 
 function App() {
   let [authToken, setAuthToken] = useState("");
+  let [userEmail, setUserEmail] = useState("");
 
   return (
     <>
     <UserContext.Provider
-      value={{ authToken, setAuthToken }}
-      // { authToken, setAuthToken } equival a  { authToken: authToken, setAuthToken:setAuthToken}
+      value={{  userEmail, setUserEmail,authToken,setAuthToken}}
     >
      
       {authToken ? (

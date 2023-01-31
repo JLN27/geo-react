@@ -53,7 +53,7 @@ export const PlaceAdd = () => {
           body: formData
         })
         const resposta = await data.json();
-        if (resposta.success === true) console.log(resposta);
+        if (resposta.success === true) console.log(resposta), formulario.reset(), alert("Place enviado");
 
         else alert("La resposta no ha triomfat");
           
@@ -61,7 +61,7 @@ export const PlaceAdd = () => {
         console.log("Error");
         alert("catch");
       }
-      formulario.reset();
+      
     };
   return (
     <div>
