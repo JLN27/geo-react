@@ -1,5 +1,6 @@
 import React from 'react'
 import { useContext } from "react";
+import { Link } from 'react-router-dom';
 import { UserContext } from "../userContext";
 
 export const PlaceList = ({place}) => {
@@ -15,18 +16,29 @@ export const PlaceList = ({place}) => {
         <td>{place.reviews_count}</td>
         <td>{place.visibility.name}</td>
         
-        <td><i className="bi bi-eye"></i></td>
+          <td>
+            <Link to={"/places/" + place.id} >
+              <i className="bi bi-eye"></i>
+            </Link>
+          </td>
+        
+        
+
         {(userEmail == place.author.email) ?
-          <td><i className="bi bi-pencil-square"></i></td>
+          <td>
+            <Link to={"/places/edit/" + place.id}>
+              <i className="bi bi-pencil-square"></i>
+            </Link>
+            
+          </td>
           : <td></td>
-          
-        }{(userEmail == place.author.email) ?
+        }
+
+        {(userEmail == place.author.email) ?
           <td><i className="bi bi-trash3"></i></td>
           : <td></td>
-          
         }
-        
-        
+   
     </>
         
 

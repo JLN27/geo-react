@@ -8,22 +8,22 @@ export const PlaceAdd = () => {
 
       latitude:"",
       longitude:""
-
-
   });
+
   let { authToken,setAuthToken } = useContext(UserContext);
+
   useEffect(() => {
 
   navigator.geolocation.getCurrentPosition( (pos )=> {
     setFormulari({
       ...formulari,
       latitude :  pos.coords.latitude,
-      longitude: pos.coords.longitude 
+      longitude: pos.coords.longitude,
+      visibility : 1
     })
 
   });
 }, [])
-
 
     const handleChange = (e) => {
       e.preventDefault();
@@ -89,16 +89,16 @@ export const PlaceAdd = () => {
 
             <div className="login__field ">
               <i className="login__icon fas fa-lock"></i>
-              <input type="text" className="login__input" placeholder="Latitude" id="latitude" name="latitude" value={formulari.latitude} onChange={handleChange}/>
+              <input type="number" className="login__input" placeholder="Latitude" id="latitude" name="latitude" value={formulari.latitude} onChange={handleChange}/>
             </div>
 
             <div className="login__field ">
               <i className="login__icon fas fa-lock"></i>
-              <input type="text" className="login__input" placeholder="Longitude" id="longitude" name="longitude" value={formulari.longitude} onChange={handleChange}/>
+              <input type="number" className="login__input" placeholder="Longitude" id="longitude" name="longitude" value={formulari.longitude} onChange={handleChange}/>
             </div>
 
             <div>
-              <input type="radio" id="visibility" name="visibility" value="1" onChange={handleChange}/>
+              <input type="radio" id="visibility" name="visibility" value="1" checked onChange={handleChange}/>
               <label htmlFor="public">Public</label>
             </div>
             <div>
