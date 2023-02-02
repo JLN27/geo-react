@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Link } from 'react-router-dom';
 import { UserContext } from "../userContext";
 
-export const PlaceList = ({place}) => {
+export const PlaceList = ({place, deletePlace}) => {
   let { userEmail, setUserEmail } = useContext(UserContext);
   return (
     <>
@@ -35,7 +35,9 @@ export const PlaceList = ({place}) => {
         }
 
         {(userEmail == place.author.email) ?
-          <td><i className="bi bi-trash3"></i></td>
+          <td><i className="bi bi-trash3"onClick={() => {
+            deletePlace(place.id);
+          }}></i></td>
           : <td></td>
         }
    
