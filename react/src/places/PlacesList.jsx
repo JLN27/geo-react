@@ -7,6 +7,8 @@ import { PlaceList } from './PlaceList'
 export const PlacesList = () => {
   let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext);
   let [places, setPlaces] = useState([]);
+  let [refresh,setRefresh] = useState(false)
+
 
   const savePlaces = async() => {
     try{
@@ -32,6 +34,28 @@ export const PlacesList = () => {
   }
   useEffect(() => { savePlaces(); }, []);
 
+  const deletePlace = async(id) => {
+    try{
+      
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/places/"+ id, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer '  + authToken,
+        },
+        method: "DELETE"
+      })
+      const resposta = await data.json();
+      if (resposta.success === true) console.log(resposta), setRefresh(!refresh);
+      
+      else alert("La resposta no a triomfat");
+
+      }catch{
+        console.log("Error");
+        alert("catch");  
+      }
+      
+  }
   
   
   return (
@@ -56,7 +80,7 @@ export const PlacesList = () => {
           { places.map ( (place)=> (
               (place.visibility.name != 'private' || userEmail == place.author.email) &&
               (<tr key={place.id}>
-              <PlaceList place={place} /></tr>)
+              <PlaceList place={place} deletePlace={deletePlace} /></tr>)
           ))}
 
         </tbody>
