@@ -8,7 +8,7 @@ export const PlacesList = () => {
   let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext);
   let [places, setPlaces] = useState([]);
 
-  const savePlaces = async(e) => {
+  const savePlaces = async() => {
     try{
       
         const data = await fetch("https://backend.insjoaquimmir.cat/api/places", {
@@ -32,6 +32,7 @@ export const PlacesList = () => {
   }
   useEffect(() => { savePlaces(); }, []);
 
+  
   
   return (
     <>
