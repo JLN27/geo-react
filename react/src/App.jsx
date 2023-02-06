@@ -15,6 +15,7 @@ import { Place } from './places/Place';
 import { PlacesGrid } from './places/PlacesGrid';
 import { PlacesList } from './places/PlacesList';
 import { PlacesMenu } from './places/PlacesMenu';
+import { ReviewsList } from './places/reviews/ReviewsList';
 
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
               <Route path="/places/edit/:id" element={<><PlacesMenu /><PlaceEdit /> </>} />
               <Route path="/places/grid" element={<><PlacesMenu /><PlacesGrid /> </>} />
               <Route path="/places/list" element={<><PlacesMenu /><PlacesList /> </>} />
+
+              {/* RUTA TEMPORAL PRUEBAS REVIEWS */}
+              <Route path="/places/reviews" element={<><PlacesMenu /><ReviewsList /> </>} />
+
           </Routes>
           <Footer />
         </>

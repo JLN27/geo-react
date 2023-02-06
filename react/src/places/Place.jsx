@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { UserContext } from "../userContext";
+import { ReviewsList } from './reviews/ReviewsList';
 
 
 export const Place = () => {
@@ -52,7 +53,10 @@ export const Place = () => {
         {(userEmail == place.author.email) &&
           <div><i className="bi bi-trash3"></i></div>
         }
-      </div>
+
+        <ReviewsList id={place.id}/>
+       </div>
+       
         
       }
     </>
