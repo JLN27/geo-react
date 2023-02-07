@@ -1,10 +1,11 @@
 import React from 'react';
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../userContext";
+import { PostList } from "./PostList";
 
 export default function PostAdd() {
-    let { authToken, setAuthToken } = useContext(UserContext);
-    let [ listaposts, setlistaposts]  = useState("");
+  let { authToken,setAuthToken ,usuari, setUsuari} = useContext(UserContext);
+  let [ listaposts, setlistaposts]  = useState([]);
 ////////////////////////////////////////////////////////////////////////////////    
     const sendLogin = async(e) => {
       try{
@@ -22,7 +23,7 @@ export default function PostAdd() {
 
 
         else alert("La resposta no ha triomfat");
-
+        console.log(usuari);
 
       }catch{
         console.log("Error");
@@ -47,10 +48,17 @@ export default function PostAdd() {
 
   <th>Author</th>
 
+  <th>Visivility</th>
+
   <th>like</th>
+
+  <th>edit  </th>
 
   </tr>
 
+      {listaposts.map ( (post)=>((usuari == post.author.email) || (post.visibility.id == 1)&&
+        (<tr key={post.id}> <PostList post={post}/></tr>)
+      ))}
       </>
       );
 }

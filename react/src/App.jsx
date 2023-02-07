@@ -13,7 +13,6 @@ import PostAdd from "./posts/PostAdd";
 import PostEdit from "./posts/PostEdit";
 import PostGrid from "./posts/PostGrid";
 import PostsGrid from "./posts/PostsGrid";
-import PostList from "./posts/PostList";
 import PostsList from "./posts/PostsList";
 import PostsMenu from "./posts/PostsMenu";
 
@@ -22,11 +21,12 @@ import NotFound from "./NotFound";
 
 function App() {
   let [authToken, setAuthToken] = useState("");
+  let [usuari, setUsuari] = useState("");
 
   return (
     <>
     <UserContext.Provider
-      value={{ authToken, setAuthToken }}
+      value= { { usuari,setUsuari,authToken,setAuthToken }}
       // { authToken, setAuthToken } equival a  { authToken: authToken, setAuthToken:setAuthToken}
     >
      
@@ -43,8 +43,8 @@ function App() {
               <Route path="/posts/add" element={ <> <PostsMenu/><PostAdd/> </>} /> 
               <Route path="/posts/edit/:id" element={ <> <PostsMenu/><PostEdit/> </>} /> 
               <Route path="/posts/grid" element={<> <PostsMenu/><PostsGrid /><PostGrid /> </>} />
-              <Route path="/posts/list" element={ <> <PostsMenu/><PostsList/><PostList/> </>} /> 
- 
+              <Route path="/posts/list" element={ <> <PostsMenu/><PostsList/> </>} /> 
+
 
               <Route path="/places" element={<Places />} />
               

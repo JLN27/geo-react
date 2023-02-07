@@ -2,71 +2,27 @@ import React from 'react';
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../userContext";
 
-export default function PostAdd() {
+export const PostList = ({post}) => {
     let { authToken, setAuthToken } = useContext(UserContext);
-    let [ listaposts, setlistaposts]  = useState([]);
 ////////////////////////////////////////////////////////////////////////////////    
-    const sendLogin = async(e) => {
-      try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts", {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer '  + authToken,
-          },
-          method: "GET",
-        });
-        
-        const resposta = await data.json();
-        if (resposta.success === true) console.log(resposta), setlistaposts(resposta.data);
 
-
-        else alert("La resposta no ha triomfat");
-
-
-      }catch{
-        console.log("Error");
-        alert("catch");
-      }
-    }  
-    useEffect(() => {
-      sendLogin();
-      }, [])
-////////////////////////////////////////////////////////////////////////////////
     return (
 
 <>
-
+<td>{ post.id}</td>
+<td>{ post.body}</td>
+<td>{ post.latitude}</td>
+<td>{ post.longitude}</td>
+<td>{ post.author.name}</td>
+<td>{ post.visibility.name}</td>
 <td>
-  { listaposts.map (  (v)=> ( 
-    <tr key={v}> {v.id} </tr>
+<a><i class="bi bi-eye"></i></a>
+<a><i class="bi bi-trash"></i></a>
+<a><i class="bi bi-pencil-square"></i></a>
 
-        ) ) }
 </td>
-<td>
-{ listaposts.map (  (v)=> ( 
-    <tr key={v}> {v.body} </tr>
 
-        ) ) }
-        </td>
-        <td>
-{ listaposts.map (  (v)=> ( 
-    <tr key={v}> {v.latitude}    </tr>
 
-        ) ) }
-        </td>
-        <td>
-{ listaposts.map (  (v)=> ( 
-    <tr key={v}> {v.longitude} </tr>
-
-        ) ) }
-        </td>
-        <td>
-{ listaposts.map (  (v)=> ( 
-    <tr key={v}> {v.author.name} </tr>
-
-        ) ) }
-        </td>
       </>
       );
 }
