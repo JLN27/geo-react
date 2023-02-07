@@ -32,7 +32,7 @@ export const PlacesList = () => {
       }
       
   }
-  useEffect(() => { savePlaces(); }, []);
+  useEffect(() => { savePlaces(); }, [refresh]);
 
   const deletePlace = async(id) => {
     try{
@@ -80,7 +80,7 @@ export const PlacesList = () => {
           { places.map ( (place)=> (
               (place.visibility.name != 'private' || userEmail == place.author.email) &&
               (<tr key={place.id}>
-              <PlaceList place={place} deletePlace={deletePlace} /></tr>)
+              <PlaceList place={place} deletePlace={deletePlace} setRefresh={setRefresh} refresh={refresh}/></tr>)
           ))}
 
         </tbody>
