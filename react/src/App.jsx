@@ -6,12 +6,11 @@ import { Routes, Route, Router } from "react-router-dom";
 import Header from "./Layout/Header";
 import Footer from "./Layout/Footer";
 import About from "./About";
-
 import Posts from "./posts/Posts";
 import Post from "./posts/Post";
 import PostAdd from "./posts/PostAdd";
 import PostEdit from "./posts/PostEdit";
-import PostGrid from "./posts/PostGrid";
+import PostGrid from "./posts/PostsGrid";
 import PostsGrid from "./posts/PostsGrid";
 import PostsList from "./posts/PostsList";
 import PostsMenu from "./posts/PostsMenu";
@@ -42,7 +41,7 @@ function App() {
               <Route path="/posts/:id" element={ <> <PostsMenu/><Post/></> } /> 
               <Route path="/posts/add" element={ <> <PostsMenu/><PostAdd/> </>} /> 
               <Route path="/posts/edit/:id" element={ <> <PostsMenu/><PostEdit/> </>} /> 
-              <Route path="/posts/grid" element={<> <PostsMenu/><PostsGrid /><PostGrid /> </>} />
+              <Route path="/posts/grid" element={<> <PostsMenu/><PostsGrid /></>} />
               <Route path="/posts/list" element={ <> <PostsMenu/><PostsList/> </>} /> 
 
 

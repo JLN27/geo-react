@@ -1,8 +1,7 @@
 import React from 'react'
 import { useContext, useState, useEffect } from "react";
 
-export default function PostsAdd() {
-  let {name,description,upload,latitude,longitude,visibility}=formulari;
+export default function PostsAdd(e) {
   const postAdd = async(formData) => {
     let {name,description,upload,latitude,longitude,visibility}=formulari;
     navigator.geolocation.getCurrentPosition( (pos )=> {
@@ -21,32 +20,41 @@ export default function PostsAdd() {
 
 
   return (
+
+
   
     <div className="form">
+              <div className="title">Post add</div>
         <div className="input-container ic2">
-            <input id="email" name="email" className="input" type="text" placeholder=" "  />
+            <input id="email" name="email" className="input" type="text" placeholder=" "  onChange={handleChange}/>
             <div className="cut cut-short"></div>
-            <label htmlFor="email" className="placeholder">Name</label>
+            <label htmlFor="email" className="placeholder">Author</label>
         </div>
         <div className="input-container ic2">
-            <input id="email" name="email" className="input" type="FILE" placeholder=" "  />
+            <input id="email" name="email" className="input" type="FILE" placeholder=" " onChange={handleChange} />
             <div className="cut cut-short"></div>
             <label htmlFor="email" className="placeholder">Email</label>
         </div>        
         <div className="input-container ic2">
-            <input id="email" name="email" className="input" type="text" placeholder=" "  />
+            <input id="email" name="email" className="input" type="text" placeholder=" "  onChange={handleChange}/>
             <div className="cut cut-short"></div>
-            <label htmlFor="email" className="placeholder">Email</label>
-        </div>        <div className="input-container ic2">
-            <input id="email" name="email" className="input" type="text" placeholder=" "  />
+            <label htmlFor="email" className="placeholder">Body</label>
+        </div>        
+        <div className="input-container ic2">
+            <input id="email" name="email" className="input" type="text" placeholder=" "  onChange={handleChange}/>
             <div className="cut cut-short"></div>
-            <label htmlFor="email" className="placeholder">Email</label>
+            <label htmlFor="email" className="placeholder">Latitude</label>
+        </div> 
+        <div className="input-container ic2">
+            <input id="email" name="email" className="input" type="text" placeholder=" "  onChange={handleChange}/>
+            <div className="cut cut-short"></div>
+            <label htmlFor="email" className="placeholder">Longitude</label>
         </div>
         <button type="text" className="submit"
         onClick={(e) => {
           sendLogin(e);
         }}>
-            LOG IN</button>
+            Publicar </button>
     </div>
 
 

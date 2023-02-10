@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../userContext";
 import { PostList } from "./PostList";
 
-export default function PostAdd() {
+export default function PostsList() {
   let { authToken,setAuthToken ,usuari, setUsuari} = useContext(UserContext);
   let [ listaposts, setlistaposts]  = useState([]);
 ////////////////////////////////////////////////////////////////////////////////    
