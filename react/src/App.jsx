@@ -7,7 +7,6 @@ import Header from "./Layout/Header";
 import Footer from "./Layout/Footer";
 import About from "./About";
 import Posts from "./posts/Posts";
-import Places from "./places/Places";
 import NotFound from "./NotFound";
 import { PlaceEdit } from './places/PlaceEdit';
 import { PlaceAdd } from './places/PlaceAdd';
@@ -34,9 +33,9 @@ function App() {
           <Routes>
               <Route path="*" element={<NotFound />} />
               <Route path="/about" element={<About />} />
-              <Route path="/" element={<><PlacesMenu /><Places /> </>} />
+              <Route path="/" element={<><PlacesMenu /><PlacesList /> </>} />
               <Route path="/posts" element={<Posts />} />
-              <Route path="/places" element={<><PlacesMenu /><Places /> </>} />
+              <Route path="/places" element={<><PlacesMenu /><PlacesList /> </>} />
               
               <Route path="/places/:id" element={<><PlacesMenu /> <Place /></>} />
               <Route path="/places/add" element={<><PlacesMenu /><PlaceAdd /> </>} />

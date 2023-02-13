@@ -268,3 +268,10 @@ body {
 	margin-top: 10vh;
 
 }
+
+.aa{
+	margin: auto;
+	width: 50%;
+	padding: 30px;
+	align-content: center;
+}
