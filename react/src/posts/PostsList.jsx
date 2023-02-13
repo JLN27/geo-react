@@ -36,25 +36,21 @@ export default function PostsList() {
 ////////////////////////////////////////////////////////////////////////////////
     return (
       <>
-<tr>
+      <table>
+        <tbody>
+        <tr>
+          <th>Id</th>
+          <th>Body</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+          <th>Author</th>
+          <th>Visivility</th>
+          <th>like</th>
+          <th>edit</th>
+        </tr>
+        </tbody>
+      </table>
 
-  <th>Id</th>
-
-  <th>Body</th>
-
-  <th>Latitude</th>
-
-  <th>Longitude</th>
-
-  <th>Author</th>
-
-  <th>Visivility</th>
-
-  <th>like</th>
-
-  <th>edit  </th>
-
-  </tr>
 
       {listaposts.map ( (post)=>((usuari == post.author.email) || (post.visibility.id == 1)&&
         (<tr key={post.id}> <PostList post={post}/></tr>)

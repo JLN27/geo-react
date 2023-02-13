@@ -43,7 +43,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/" element={<><PlacesMenu /><PlacesList /> </>} />
 
-              <Route path="/posts" element={<PostsMenu />} />
+              <Route path="/posts" element={ <> <PostsMenu/><PostsList/> </>} />
               <Route path="/posts/:id" element={ <> <PostsMenu/><Post/></> } /> 
               {/* <Route path="/posts/add" element={ <> <PostsMenu/><PostAdd/> </>} />  */}
               <Route path="/posts/edit/:id" element={ <> <PostsMenu/><PostEdit/> </>} /> 

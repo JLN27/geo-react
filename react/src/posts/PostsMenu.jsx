@@ -5,10 +5,10 @@ export default function  PostsMenu () {
   return (
     <>
   
-    <div>PostsMenu
-        <Link to="/posts/add">Add </Link>
-        <Link to="/posts/grid"> Grid </Link>
-        <Link to="/posts/list">Listar </Link>
+    <div className='placesMenu'>
+        <Link to="/posts/add"  className='btn-placesMenu'>Add </Link>
+        <Link to="/posts/grid"  className='btn-placesMenu'> Grid </Link>
+        <Link to="/posts/list"  className='btn-placesMenu'>Listar </Link>
     </div>
     </>
 
