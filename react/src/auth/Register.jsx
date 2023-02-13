@@ -7,7 +7,7 @@ import { UserContext } from "../userContext";
 
 export const Register = ({setLogin}) => {
     let [formulari, setFormulari] = useState({});
-    let { authToken,setAuthToken } = useContext(UserContext);
+    let {userEmail,setUserEmail, authToken,setAuthToken } = useContext(UserContext);
 
 
     const handleChange = (e) => {
@@ -22,19 +22,8 @@ export const Register = ({setLogin}) => {
     const handleRegister = async(e) => {
       e.preventDefault();
       
-      let { age, name, email, password, password2 } = formulari;
-      alert(
-        "He enviat les Dades:  " +
-          age +
-          "/" +
-          name +
-          "/" +
-          email +
-          "/" +
-          password +
-          "/" +
-          password2
-      );
+      let { name, email, password, password2 } = formulari;
+      
       if (password2 !== password) {
         alert("Els passwords han de coincidir");
         return false;
@@ -47,14 +36,12 @@ export const Register = ({setLogin}) => {
           },
           method: "POST",
           // Si els noms i les variables coincideix, podem simplificar
-          body: JSON.stringify({ age, name, email, password })
+          body: JSON.stringify({ name, email, password })
         })
         const resposta = await data.json();
-        if (resposta.success === true) alert(resposta.authToken), setAuthToken(resposta.authToken);
+        if (resposta.success === true)  setAuthToken(resposta.authToken), setUserEmail(email);
 
         else alert("La resposta no ha triomfat");
-
-        alert("He enviat les Dades:  " + email + "/" + password);
           
       }catch{
         console.log("Error");
@@ -63,48 +50,61 @@ export const Register = ({setLogin}) => {
       
     };
   return (
-    <div className="form">
-        <div className="title">Create your profile</div>
-        <div className="input-container ic1">
-            <input id="age" name="age" className="input" type="number" placeholder=" " onChange={handleChange}/>
-            <div className="cut"></div>
-            <label htmlFor="age" className="placeholder">Age</label>
+    <div>
+    {<div className="container">
+      <div className="screen">
+        <div className="screen__content">
+
+          <form className="login">
+            <div className="title">Create your profile</div>
+
+            <div className="login__field">
+              <i className="login__icon fas fa-user"></i>
+              <input type="text" className="login__input" placeholder="Name" id="name" name="name" onChange={handleChange}/>
+            </div>
+
+            <div className="login__field">
+              <i className="login__icon fas fa-user"></i>
+              <input type="text" className="login__input" placeholder="Email" id="email" name="email" onChange={handleChange}/>
+            </div>
+
+            <div className="login__field ">
+              <i className="login__icon fas fa-lock"></i>
+              <input type="password" className="login__input" placeholder="Password" id="password" name="password" onChange={handleChange}/>
+            </div>
+
+            <div className="login__field ">
+              <i className="login__icon fas fa-lock"></i>
+              <input type="password" className="login__input" placeholder="Repeat Password" id="password2" name="password2" onChange={handleChange}/>
+            </div>
+
+            <button className="button login__submit"
+              onClick={(e) => {
+                handleRegister(e);
+              }}>
+              <span className="button__text">Create Acount</span>
+              <i className="button__icon fas fa-chevron-right"></i>
+            </button>		
+
+            <button className="button login__submit"
+              onClick={() => {
+                setLogin(false);
+              }}>
+              <span className="button__text">Already Registered?</span>
+              <i className="button__icon fas fa-chevron-right"></i>
+            </button>	
+
+          </form>
+          
         </div>
-        <div className="input-container ic2">
-            <input id="name" name="name" className="input"  type="text" placeholder=" " onChange={handleChange}/>
-            <div className="cut"></div>
-            <label htmlFor="name" className="placeholder">Name (optional)</label>
-        </div>
-        <div className="input-container ic2">
-            <input id="email" name="email" className="input" type="text" placeholder=" "  onChange={handleChange}/>
-            <div className="cut cut-short"></div>
-            <label htmlFor="email" className="placeholder">Email</label>
-        </div>
-        <div className="input-container ic2">
-            <input id="password" name="password" className="input" type="password" placeholder=" "  onChange={handleChange}/>
-            <div className="cut cut-short"></div>
-            <label htmlFor="password" className="placeholder">Password</label>
-        </div>
-        <div className="input-container ic2">
-            <input id="password2" name="password2" className="input" type="password" placeholder=" "  onChange={handleChange}/>
-            <div className="cut cut-short"></div>
-            <label htmlFor="password2" className="placeholder">Repetir password</label>
-        </div>
-        <button type="text" className="submit"
-        onClick={(e) => {
-            handleRegister(e);
-            }}>
-            CREATE ACCOUNT</button>
-        <button className="submit"
-            onClick={() => {
-            setLogin(false);
-            
-            }}
-            
-        >
-           Alredy registered?
-        </button>
-        
+        <div className="screen__background">
+          <span className="screen__background__shape screen__background__shape4"></span>
+          <span className="screen__background__shape screen__background__shape3"></span>		
+          <span className="screen__background__shape screen__background__shape2"></span>
+          <span className="screen__background__shape screen__background__shape1"></span>
+        </div>		
+      </div>
+    </div>}
   </div>
   )
 }

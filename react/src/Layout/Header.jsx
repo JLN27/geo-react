@@ -22,7 +22,7 @@ export default function Header() {
       })
       const resposta = await data.json();
       if (resposta.success === true) setUserName(resposta.user.name), setRoles(resposta.roles);
-
+      
       else alert("La resposta no a triomfat");
 
       }catch{
@@ -32,7 +32,7 @@ export default function Header() {
       
   }
   useEffect(() => {
-  savename();
+    savename();
   }, [])
   
     
@@ -60,31 +60,46 @@ export default function Header() {
     
   ;}
 
-  
-
 
   return (
     <>
         
       <div className="header">
-        {/*Enlaces  */}
-        <Link to="/about">About </Link>
-        <Link to="/places"> Places </Link>
-        <Link to="/posts">Posts </Link>
+        <div className="left">
+
+          
+          <Link to="/places"> 
+            <div className="btn">
+              Places
+            </div>
+          </Link>
+          
+          
+          <Link to="/posts">
+            <div className="btn">
+              Posts
+            </div>
+          </Link>
+          
+
+        </div>
+
+        <div className="right">
+          <span className="username">{userName}</span>
+          { roles.map (  (v)=> ( 
+            <span className="role" key={v}> {v} </span>
+          ) )  }
+
+          <button className="btn btn-logout"
+          onClick={(e) => {
+            sendLogout(e);
+          }}>
+            Logout
+          </button>
+        </div>
         
-        <h3>{userName}</h3>
-        { roles.map (  (v)=> ( 
-          <span key={v}> {v} </span>
-        ) ) }
-        {/*Ejecutar funcion sendLogout onClick */}
-        <button
-        onClick={(e) => {
-          sendLogout(e);
-        }}>
-          Logout
-        </button>
+        
       </div>
-      <hr />
     </>
   );
 }

@@ -6,8 +6,7 @@ import { UserContext } from "../userContext";
 export const Login = ({setLogin}) => {
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
-    let { authToken,setAuthToken ,usuari, setUsuari} = useContext(UserContext);
-
+    let {userEmail, setUserEmail, authToken,setAuthToken } = useContext(UserContext);
 
     const sendLogin = async(e) => {
         e.preventDefault();
@@ -22,13 +21,12 @@ export const Login = ({setLogin}) => {
           });
           
           const resposta = await data.json();
-          if (resposta.success === true) alert(resposta.authToken), setAuthToken(resposta.authToken)
-          ,setUsuari(email);
+
+          if (resposta.success === true)  setAuthToken(resposta.authToken),setUserEmail(email);
 
 
           else alert("La resposta no ha triomfat");
 
-          alert("He enviat les Dades:  " + email + "/" + password);
 
         }catch{
           console.log("Error");
@@ -37,36 +35,79 @@ export const Login = ({setLogin}) => {
       };
 
   return (
-    <div className="form">
-        <div className="title">Log in</div>
-        <div className="input-container ic1">
-            <input id="email" className="input" type="text" placeholder=" "
-            onChange={(e) => {
-            setEmail(e.target.value);
-          }}/>
-            <div className="cut"></div>
-            <label htmlFor="email" className="placeholder">Email</label>
+    <div>
+      {<div className="container">
+        <div className="screen">
+          <div className="screen__content">
+
+            <form className="login">
+
+              <div className="title">LOG IN</div>
+
+              <div className="login__field">
+                <i className="login__icon fas fa-user"></i>
+                <input type="text" className="login__input" placeholder="Email" 
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}/>
+              </div>
+
+              <div className="login__field ">
+                <i className="login__icon fas fa-lock"></i>
+                <input type="password" className="login__input" placeholder="Password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}/>
+              </div>
+
+              <button className="button login__submit"
+              onClick={(e) => {
+                sendLogin(e);
+              }}>
+                <span className="button__text">LOG IN</span>
+                <i className="button__icon fas fa-chevron-right"></i>
+              </button>		
+
+              <button className="button login__submit"
+                onClick={() => {
+                  setLogin(true);
+                }}>
+                <span className="button__text">Not registered?</span>
+                <i className="button__icon fas fa-chevron-right"></i>
+              </button>	
+
+            </form>
+            
+          </div>
+          <div className="screen__background">
+            <span className="screen__background__shape screen__background__shape4"></span>
+            <span className="screen__background__shape screen__background__shape3"></span>		
+            <span className="screen__background__shape screen__background__shape2"></span>
+            <span className="screen__background__shape screen__background__shape1"></span>
+          </div>		
         </div>
-        <div className="input-container ic2">
-            <input id="password" className="input" type="password" placeholder=" " 
-            onChange={(e) => {
-                setPassword(e.target.value);
-              }}/>
-            <div className="cut cut-short"></div>
-            <label htmlFor="password" className="placeholder">Password</label>
-        </div>
-        <button type="text" className="submit"
-        onClick={(e) => {
-          sendLogin(e);
-        }}>
-            LOG IN</button>
-        <button className="submit"
-            onClick={() => {
-            setLogin(true);
-            }}
-        >
-           Not registered?
-        </button>
-  </div>
+      </div>}
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   )
 }
