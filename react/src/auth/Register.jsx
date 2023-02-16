@@ -1,110 +1,112 @@
-import { useState } from 'react';
 import React from 'react'
-import { useContext } from "react";
-import { UserContext } from "../userContext";
+import { useState } from 'react';
+
+export const Register = ({ setLogin }) => {
+
+
+    let [ register,setRegister] = useState({});
+    let [ error, setError] = useState("");
 
 
 
-export const Register = ({setLogin}) => {
-    let [formulari, setFormulari] = useState({});
-    let {userEmail,setUserEmail, authToken,setAuthToken } = useContext(UserContext);
+    const handleSubmit = (e) => {
 
+        e.preventDefault();
 
-    const handleChange = (e) => {
-      e.preventDefault();
-  
-      setFormulari({
-        // ...formulari es como el cache
-        ...formulari,
-        [e.target.name]: e.target.value
-      });
-    };
-    const handleRegister = async(e) => {
-      e.preventDefault();
-      
-      let { name, email, password, password2 } = formulari;
-      
-      if (password2 !== password) {
-        alert("Els passwords han de coincidir");
-        return false;
-      }
-      try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/register", {
-          headers: {
+        const { name,email,password } = register
+
+        if (register.password !== register.password2 )
+        {
+            alert ("Els passwords han de coincidir")
+        }
+
+        fetch("https://backend.insjoaquimmir.cat/api/register", {
+            headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
-          },
-          method: "POST",
-          // Si els noms i les variables coincideix, podem simplificar
-          body: JSON.stringify({ name, email, password })
+            },
+            method: "POST",
+            // Si els noms i les variables coincideix, podem simplificar
+            body: JSON.stringify({ name, email,password})
+
         })
-        const resposta = await data.json();
-        if (resposta.success === true)  setAuthToken(resposta.authToken), setUserEmail(email);
+        .then((data) => data.json())
+        .then((resposta) => {
+            console.log(resposta);
+            if (resposta.success === true) {
+            //alert(resposta.authToken);
+            }
+            else
+            { 
+                setError(resposta.message);
+            }
+        })
+        .catch((data) => {
+            console.log(data);
+            alert("Catchch");
+          });
 
-        else alert("La resposta no ha triomfat");
+        alert("He enviat les Dades:  " + email + "/" + password);
+
+        
+
+
+
+    }
+
+
+    const handleChange = (e)=> {
+
+        e.preventDefault();
+  
+  
+        setRegister({
+
+                ...register,
+                [e.target.name] : e.target.value
+                     
+    
+          })
+          console.log(register)
           
-      }catch{
-        console.log("Error");
-        alert("catch");
-      }
-      
-    };
+    }
+
+
+    
   return (
-    <div>
-    {<div className="container">
-      <div className="screen">
-        <div className="screen__content">
+   
+    <section
+            className="absolute top-1/2 left-1/2 mx-auto max-w-sm -translate-x-1/2 -translate-y-1/2 transform space-y-4 text-center">
+            <div x-show="isLoginPage" className="space-y-4">
+                <header className="mb-3 text-2xl font-bold">Crea Usuari</header>
+                
+                <div className="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                    <input type="text" name="name" placeholder="Name"  onChange={ handleChange}
+                        className="my-3 w-full border-none bg-transparent outline-none focus:outline-none" />
+                </div>
+                <div className="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                    <input type="text" name="email" placeholder="Email"  onChange={ handleChange}
+                        className="my-3 w-full border-none bg-transparent outline-none focus:outline-none" />
+                </div>
+                <div className="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                    <input type="password" name="password" placeholder="Password"  onChange={ handleChange}
+                        className="my-3 w-full border-none bg-transparent outline-none focus:outline-none" />
+                </div>
+                <div className="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                    <input type="password2" name="password2" placeholder="Repeat Password"  onChange={ handleChange}
+                        className="my-3 w-full border-none bg-transparent outline-none focus:outline-none" />
+                </div>
+                { error ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200 ">{error}</div>) : (<></>)  }
+                <button onClick={handleSubmit }
+                    className="w-full rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400">
+                    CREA COMPTE
+                </button>
 
-          <form className="login">
-            <div className="title">Create your profile</div>
-
-            <div className="login__field">
-              <i className="login__icon fas fa-user"></i>
-              <input type="text" className="login__input" placeholder="Name" id="name" name="name" onChange={handleChange}/>
+                <div className="mt-8 text-sm text-gray-400">
+                    <button onClick={ ()=> setLogin(true) } className="underline">Ja registrat?</button>                    
+                </div>
             </div>
+    </section>
 
-            <div className="login__field">
-              <i className="login__icon fas fa-user"></i>
-              <input type="text" className="login__input" placeholder="Email" id="email" name="email" onChange={handleChange}/>
-            </div>
-
-            <div className="login__field ">
-              <i className="login__icon fas fa-lock"></i>
-              <input type="password" className="login__input" placeholder="Password" id="password" name="password" onChange={handleChange}/>
-            </div>
-
-            <div className="login__field ">
-              <i className="login__icon fas fa-lock"></i>
-              <input type="password" className="login__input" placeholder="Repeat Password" id="password2" name="password2" onChange={handleChange}/>
-            </div>
-
-            <button className="button login__submit"
-              onClick={(e) => {
-                handleRegister(e);
-              }}>
-              <span className="button__text">Create Acount</span>
-              <i className="button__icon fas fa-chevron-right"></i>
-            </button>		
-
-            <button className="button login__submit"
-              onClick={() => {
-                setLogin(false);
-              }}>
-              <span className="button__text">Already Registered?</span>
-              <i className="button__icon fas fa-chevron-right"></i>
-            </button>	
-
-          </form>
-          
-        </div>
-        <div className="screen__background">
-          <span className="screen__background__shape screen__background__shape4"></span>
-          <span className="screen__background__shape screen__background__shape3"></span>		
-          <span className="screen__background__shape screen__background__shape2"></span>
-          <span className="screen__background__shape screen__background__shape1"></span>
-        </div>		
-      </div>
-    </div>}
-  </div>
   )
 }
