@@ -9,8 +9,7 @@ import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
 
 export const Comment = ({ comment }) => {
   let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
-  let { setAdd, setRefresca, commentsCount, setCommentsCount } =
-    useContext(CommentsContext);
+  let { setAdd, setRefresca, commentsCount, setCommentsCount } = useContext(CommentsContext);
   const formatter = buildFormatter(catStrings);
 
   console.log(comment)
@@ -31,8 +30,8 @@ export const Comment = ({ comment }) => {
 
     if (confirma) {
       const data = await fetch(
-        "https://backend.insjoaquimmir.cat/api/comments/" +
-          comment.comment.id +
+        "https://backend.insjoaquimmir.cat/api/posts/" +
+          comment.post.id +
           "/comments/" +
           comment.id,
         headers
