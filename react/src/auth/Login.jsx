@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { useState } from 'react';
 import { UserContext } from '../userContext';
 import { useForm } from '../hooks/useForm';
+import { useLogin } from '../hooks/useLogin';
+
 
 export const Login = ({ setLogin }) => {
   // Implementem codi de gestió 
@@ -13,44 +15,10 @@ export const Login = ({ setLogin }) => {
     password: "",
     });
     
-    const {email,password} = formState
-  
-  const check_login = (e) =>  {
+    const {email,password} = formState;
 
-    e.preventDefault();
+    const {doLogin} = useLogin();
 
-    console.log("Comprovant credencials....")
-    // Enviam dades a l'aPI i recollim resultat
-    fetch ("https://backend.insjoaquimmir.cat/api/login",{
-        
-         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            //"Access-Control-Allow-Origin": "*"  
-        },
-        method: "POST",
-        body: JSON.stringify(formState)
-    }
-    ).then( data => data.json() )
-    .then (resposta => { 
-        
-            console.log(resposta); 
-            if (resposta.success == true )
-            {
-                setUsuari(email);
-                console.log(usuari)
-                setAuthToken(resposta.authToken);    
-            }
-            else
-            { 
-                console.log(resposta)
-                setError(resposta.message);
-            }
-        } ) 
-    .catch((data) => {
-        setError("Network error")
-    });
-  }
   return (
     
    <section
@@ -70,26 +38,13 @@ export const Login = ({ setLogin }) => {
                     <a href="#" className="font-medium text-gray-400 hover:text-gray-500">FORGOT?</a>
                 </div>
                 { error ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200 ">{error}</div>) : (<></>)  }
-                <button onClick={ (e) => { check_login(e) }}
+                <button onClick={ () => { doLogin(formState) }}
                     className="w-full rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400">
                     LOG IN
                 </button>
             </div>
 
-            {/* <div className="flex items-center space-x-4">
-                <hr className="w-full border border-gray-300" />
-                <div className="font-semibold text-gray-400">OR</div>
-                <hr className="w-full border border-gray-300" />
-            </div> */}
-
             <footer>
-                {/* <div className="grid grid-cols-2 gap-4">
-                    <a href="#"
-                        className="rounded-2xl border-b-2 border-b-gray-300 bg-white py-2.5 px-4 font-bold text-blue-700 ring-2 ring-gray-300 hover:bg-gray-200 active:translate-y-[0.125rem] active:border-b-gray-200">GITHUB</a>
-                    <a href="#"
-                        className="rounded-2xl border-b-2 border-b-gray-300 bg-white py-2.5 px-4 font-bold text-blue-500 ring-2 ring-gray-300 hover:bg-gray-200 active:translate-y-[0.125rem] active:border-b-gray-200">GOOGLE</a>
-                </div> */}
-
                 <div className="mt-8 text-sm text-gray-400">
                     By signing in to ********, you agree to our
                     <a href="#" className="font-medium text-gray-500">Terms</a> and

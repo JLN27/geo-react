@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
+import { useFetch } from "../hooks/useFetch";
 
 
 // Temporal
@@ -19,38 +20,15 @@ export const PlacesList = () => {
   // Dades del context. Ens cal el token per poder fer les crides a l'api
   let { usuari,  setUsuari,authToken,setAuthToken } = useContext(UserContext)
       
-  // només quan la vble d'estat refresca canvia el seu valor
-  // refresca canviarà el valor quan fem alguna operació com delete   
-  useEffect(() => {
-    // Crida a l'api. mètode GET
-    fetch ("https://backend.insjoaquimmir.cat/api/places",{
-        // mode: 'cors',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer '  + authToken 
-           
-          },
-        method: "GET",
-    }
-    ).then( data => data.json() )
-    .then (resposta => { 
-        
-        // Faria falta control·lar possible error
-            console.log(resposta.data); 
-            // Actualitzem la vble d'estat places
-            setPlaces(resposta.data);
-            // Canvia el valor de refresca
-            // provocarà que entri a useEffect
-            // al fer el rendertizat 
-            // setRefresca(false);
-          
-        } ) 
-         
-  }, [refresh])   // condició d'execució del useffect
-    
+  const { data, error, loading} = useFetch("https://backend.insjoaquimmir.cat/api/places", {
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + authToken,
+    },
+    method: "GET",
+  })
 
-  // Esborrar un element
 const deletePlace = (id,e) => {
 
 
@@ -86,8 +64,6 @@ const deletePlace = (id,e) => {
             }
         } ) 
 
-
-
   }
 
 
@@ -98,8 +74,6 @@ const deletePlace = (id,e) => {
 
   return (
    <>
-
-  
  
   <div className="flex flex-col">
   <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
@@ -144,47 +118,14 @@ const deletePlace = (id,e) => {
           </thead>
           <tbody>
 
-            { places.map( (v )=> { return (
-            
-            <>
-            { v.visibility.id == 1 || v.author.email == usuari ? (<PlaceList  deletePlace={ deletePlace } key={v.id} v={v}/>) : <></> }
-            
-          
-            </>
+          {loading ? "Espera..." : <>{data.map((v) => {
+            return (
+              <>
+                { v.visibility.id == 1 || v.author.email == usuari ? (<PlaceList  deletePlace={ deletePlace } key={v.id} v={v}/>) : <></> }            
+              </>
             )
+          })}</>}
 
-            })}
-            
-            {/* <tr className="bg-white border-b">
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Mark
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Otto
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @mdo
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Otto
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @mdo
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Otto
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @mdo
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                @mdo
-              </td>
-              <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              👁️📝🗑️
-              </td>
-            </tr> */}
             
           </tbody>
         </table>
