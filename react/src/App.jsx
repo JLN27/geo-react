@@ -25,6 +25,7 @@ import { PostsGrid } from './posts/PostsGrid'
 import { PostsAdd } from './posts/PostsAdd'
 import { Post } from './posts/Post'
 import { PostEdit } from './posts/PostEdit'
+import { ToDos } from './todos/ToDos'
 
 
 // "leaflet": "^1.9.3",
@@ -74,6 +75,8 @@ function App() {
              {/* <Route path="/posts" element={ <Places />} />
             <Route path="/posts/:id" element={<PlacesShow />} /> */}
             <Route path="/about" element={<About />} />
+            <Route path="/todos" element={<ToDos />} />
+
         </Routes>
 
         {/* <Footer/> */}
