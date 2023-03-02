@@ -6,9 +6,10 @@ export const ToDo = ({key,todo,handleDelete,handleToggleTodo}) => {
       <>
         <div>{todo.text}</div>
         
-        {(todo.done) ? <button onClick={handleToggleTodo(todo.id)}>ToDO </button>:
+        {(todo.done) ? <button onClick={ (e) => {handleToggleTodo(todo.id)}}>ToDO </button>:
          <button onClick={ (e) => {handleToggleTodo(todo.id)}}> Done</button>
         }
+        <button onClick={ (e) => {handleDelete(todo.id)}}> DELETE</button>
 
       </>
     
