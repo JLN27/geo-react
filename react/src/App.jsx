@@ -26,6 +26,8 @@ import { PostsAdd } from './posts/PostsAdd'
 import { Post } from './posts/Post'
 import { PostEdit } from './posts/PostEdit'
 import { ToDos } from './todos/ToDos'
+import { PlaceMarks } from './places/marks/PlaceMarks'
+
 
 
 // "leaflet": "^1.9.3",
@@ -76,6 +78,8 @@ function App() {
             <Route path="/posts/:id" element={<PlacesShow />} /> */}
             <Route path="/about" element={<About />} />
             <Route path="/todos" element={<ToDos />} />
+            <Route path="/places/marks" element={<PlaceMarks />} />
+
 
         </Routes>
 
