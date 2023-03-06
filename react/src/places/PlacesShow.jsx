@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { UserContext } from "../userContext";
 import "leaflet/dist/leaflet.css";
 
@@ -14,6 +14,15 @@ import { PlacesMenu } from "./PlacesMenu";
 import { ReviewAdd } from "./reviews/ReviewAdd";
 import { ReviewsList } from "./reviews/ReviewsList";
 // import { MarkerLayer, Marker } from "react-leaflet-marker";
+
+import { useReducer } from "react";
+import { placeMarkReducer } from "./marks/placeMarkReducer";
+
+const initialState = [];
+const init = () => {
+  // Si localstorage tornes null tornariem un array buit
+  return JSON.parse(localStorage.getItem("placesMarks")) || [];
+};
 
 export const PlacesShow = () => {
   const { id } = useParams();
@@ -31,7 +40,6 @@ export const PlacesShow = () => {
   let [isLoading, setIsLoading] = useState(true);
   let [favorited, setFavorited] = useState(false);
   let [favorites, setFavorites] = useState(0)
-
 
   const unfavourite = async () => {
 
@@ -200,6 +208,28 @@ export const PlacesShow = () => {
         });
     }
   };
+  const [placesMarks, dispatchMarks] = useReducer(placeMarkReducer, initialState, init);
+
+  useEffect(() => {
+    localStorage.setItem("placesMarks", JSON.stringify(placesMarks));
+  }, [placesMarks]);
+
+  const { pathname } = useLocation()
+
+  const handleNewMark = () => {
+    var mark = {
+      id: place.id,
+      name: place.name,
+      description: place.description,
+      ruta : pathname ,
+    };
+
+    const action = {
+      type: "Add Mark",
+      payload: mark
+    };
+    dispatchMarks(action);
+  };
 
   return (
     <>
@@ -243,6 +273,10 @@ export const PlacesShow = () => {
               </div>
               <p className=" bg-yellow-100">{place.description}</p>
               <div className="mt-10 h-12 max-h-full md:max-h-screen">
+              <button onClick={ (e) => { handleNewMark()}}
+        className="">
+         MARK
+      </button><br /> <br />
                 {/* <MapContainer  style={{ height: 280 }} center={[43.92853, 2.14255]} zoom={12} scrollWheelZoom={false}>
   <TileLayer
     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
