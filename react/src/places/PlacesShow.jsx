@@ -15,16 +15,12 @@ import { ReviewAdd } from "./reviews/ReviewAdd";
 import { ReviewsList } from "./reviews/ReviewsList";
 // import { MarkerLayer, Marker } from "react-leaflet-marker";
 
-import { useReducer } from "react";
-import { placeMarkReducer } from "./marks/placeMarkReducer";
-
-const initialState = [];
-const init = () => {
-  // Si localstorage tornes null tornariem un array buit
-  return JSON.parse(localStorage.getItem("placesMarks")) || [];
-};
+import { useDispatch, useSelector } from "react-redux";
+import { addplaceMark } from "../slices/placeMarkSlice";
 
 export const PlacesShow = () => {
+  const { placesMarks } = useSelector((state) => state.placeMarks);
+
   const { id } = useParams();
 
   let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
@@ -208,7 +204,6 @@ export const PlacesShow = () => {
         });
     }
   };
-  const [placesMarks, dispatchMarks] = useReducer(placeMarkReducer, initialState, init);
 
   useEffect(() => {
     localStorage.setItem("placesMarks", JSON.stringify(placesMarks));
@@ -216,19 +211,21 @@ export const PlacesShow = () => {
 
   const { pathname } = useLocation()
 
-  const handleNewMark = () => {
-    var mark = {
-      id: place.id,
+  const dispatch = useDispatch();
+
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    if (place.description.length <= 1) return;
+
+    const newplaceMark = {
+      id: new Date().getTime(),
       name: place.name,
       description: place.description,
-      ruta : pathname ,
+      link:pathname,
     };
 
-    const action = {
-      type: "Add Mark",
-      payload: mark
-    };
-    dispatchMarks(action);
+    console.log("Abans del dispatch");
+    dispatch(addplaceMark(newplaceMark));
   };
 
   return (
@@ -273,7 +270,7 @@ export const PlacesShow = () => {
               </div>
               <p className=" bg-yellow-100">{place.description}</p>
               <div className="mt-10 h-12 max-h-full md:max-h-screen">
-              <button onClick={ (e) => { handleNewMark()}}
+              <button onClick={ (e) => { onFormSubmit(e)}}
         className="">
          MARK
       </button><br /> <br />
