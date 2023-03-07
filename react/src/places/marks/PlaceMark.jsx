@@ -10,6 +10,5 @@ export const PlaceMark = ({mark, handleDeleteMark}) => {
       <td><Link to={mark.ruta}></Link></td>
       <td><button onClick={ (e) => {handleDeleteMark(mark.id)}}>Borrar</button></td>
     </tr>
-   
   )
 }

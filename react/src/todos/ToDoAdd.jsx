@@ -1,26 +1,51 @@
 import React from "react";
-import { useEffect } from "react";
-import { useReducer } from "react";
-import { useForm } from '../hooks/useForm';
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../hooks/useForm";
+import { addtodo } from "../slices/todoSlice";
 
+export const ToDoAdd = () => {
+  const { description, formState, onInputChange, onResetForm } = useForm({
+    description: ""
+  });
 
-export const ToDoAdd = ({handleNewToDo}) => {
-  const { formState, onInputChange, onResetForm } = useForm({
-    id: 0,
-    text: "",
-    done : false,
-    });
-    const {id,text, done} = formState;
-    console.log(formState);
+  //const { todos } = useSelector(state => state.todos)
+  // console.log(todos)
+  const dispatch = useDispatch();
+
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    if (description.length <= 1) return;
+
+    const newTodo = {
+      id: new Date().getTime(),
+      description: description,
+      done: false
+    };
+
+    onResetForm();
+    //handle(newTodo)
+    console.log("Abans del dispatch");
+    dispatch(addtodo(newTodo));
+  };
+
   return (
-    <>
-      <input name="text" type="text" value={text} placeholder="ToDo"  onChange={ onInputChange }
-          className="my-3 w-full border-none bg-transparent outline-none focus:outline-none" />
-      <button onClick={ (e) => { handleNewToDo(formState), onResetForm() }}
-        className="w-full rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400">
-        SEND
-      </button>
-    </>
-    
-  )
-}
+    <div className="mb-4">
+      <h1 className="text-grey-darkest">Todo List</h1>
+      <form onSubmit={onFormSubmit} className="flex mt-4">
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-gray-800"
+          placeholder="Què farem avui?"
+          name="description"
+          value={description}
+          onChange={onInputChange}
+        />
+        <input
+          type="submit"
+          // onClick={handle}
+          value="Add"
+          className="flex-no-shrink p-2 border-2 rounded text-teal-400 border-teal-600 hover:text-white hover:bg-teal-500"
+        />
+      </form>
+    </div>
+  );
+};
