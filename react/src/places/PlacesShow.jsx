@@ -16,11 +16,11 @@ import { ReviewsList } from "./reviews/ReviewsList";
 // import { MarkerLayer, Marker } from "react-leaflet-marker";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addplaceMark } from "../slices/placeMarkSlice";
+import { addplaceMark, ismarked } from "../slices/placeMarkSlice";
 
 export const PlacesShow = () => {
-  const { placesMarks } = useSelector((state) => state.placeMarks);
-
+  const { placeMarks, isMarked } = useSelector((state) => state.placeMarks)
+  const dispatch = useDispatch();
   const { id } = useParams();
 
   let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
@@ -206,12 +206,10 @@ export const PlacesShow = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("placesMarks", JSON.stringify(placesMarks));
-  }, [placesMarks]);
+    localStorage.setItem("marksPlaces", JSON.stringify(placeMarks));
+  }, [placeMarks]);
 
   const { pathname } = useLocation()
-
-  const dispatch = useDispatch();
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -270,7 +268,7 @@ export const PlacesShow = () => {
               </div>
               <p className=" bg-yellow-100">{place.description}</p>
               <div className="mt-10 h-12 max-h-full md:max-h-screen">
-              <button onClick={ (e) => { onFormSubmit(e)}}
+              <button onClick={ (e) => { onFormSubmit(e), console.log("click")}}
         className="">
          MARK
       </button><br /> <br />

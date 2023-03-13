@@ -1,30 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  placeMarks: JSON.parse(localStorage.getItem("placeMarks")) || []
+  placeMarks: JSON.parse(localStorage.getItem("marksPlaces")) || [],
+  isMarked : false
 };
 
-export const placeMarksSlice = createSlice({
+export const placeMarkSlice = createSlice({
   name: "placeMarks",
   initialState,
   reducers: {
     addplaceMark: (state, action) => {
       state.placeMarks.push(action.payload); // aqui podem fer push
+      state.isMarked = true;
     },
     delplaceMark: (state, action) => {
-      state.placeMarks = state.placeMarks.filter((placeMark) => placeMark.id !== action.payload);
+      state.placeMarks = state.placeMarks.filter((placeMarks) => placeMarks.id !== action.payload);
     },
-    toggleplaceMark: (state, action) => {
-      state.placeMarks = state.placeMarks.map((placeMark) => {
-        if (placeMark.id === action.payload) {
-          //id
-          return { ...placeMark, done: !placeMark.done }; // invertim el done
+    ismarked: (state, action) => {
+      state.isMarked = false
+      state.placeMarks.map((placeMark) => {
+        if(placeMark.id == action.payload) {
+          state.isMarked = true;
         }
-        return placeMark;
-      });
+      })
     }
   }
-});
-
-export const { addplaceMark, delplaceMark, toggleplaceMark } = placeMarksSlice.actions;
-export default placeMarksSlice.reducer;
+})
+export const { addplaceMark, delplaceMark, ismarked } = placeMarkSlice.actions;
+const placeMarksReducer = placeMarkSlice.reducer
+export default placeMarksReducer

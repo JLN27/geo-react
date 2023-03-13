@@ -99,7 +99,9 @@ export const Header = () => {
                   <Link to="/places">Places </Link>  
                   <Link to="/posts">Posts </Link>
                   <Link to="/todos">ToDos </Link>  
-                  <Link to="/about">About </Link>  
+                  <Link to="/about">About </Link>
+                  <Link to="/places/marks">PlacesMarks </Link>  
+
               </div>
           </div>
           <div>

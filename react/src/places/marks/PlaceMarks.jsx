@@ -1,45 +1,34 @@
-import React from 'react'
-import { useEffect } from "react";
-import { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { PlaceMark } from './PlaceMark'
-import { placeMarkReducer } from "./placeMarkReducer";
-
-
-const initialState = [];
-const init = () => {
-  // Si localstorage tornes null tornariem un array buit
-  return JSON.parse(localStorage.getItem("placesMarks")) || [];
-};
 
 export const PlaceMarks = () => {
 
-  const [placesMarks, dispatchMarks] = useReducer(placeMarkReducer, initialState, init);
+  const { placeMarks } = useSelector((state) => state.placeMarks);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.setItem("placesMarks", JSON.stringify(placesMarks));
-  }, [placesMarks]);
+    localStorage.setItem("marksPlaces", JSON.stringify(placeMarks));
+  }, [placeMarks]);
 
-  const handleDeleteMark = (id) => {
-    console.log("Aqui arribo " + id);
-    dispatchMarks({
-      type: "Del Mark",
-      payload: id
-    });
-  };
-
-  console.log(placesMarks);
+  console.log("dffds");
+  console.log(placeMarks);
 
   return (
     
     <>  
-        <div>
-            {placesMarks.map((mark) => (
-              <PlaceMark
-                mark={mark}
-                handleDeleteMark={handleDeleteMark}
-              />
+        <table>
+            {placeMarks.map((mark) => (
+              <>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Ver</th>
+                <th>Eliminar</th>
+                <PlaceMark mark={mark}/>
+              </>   
             ))}
-          </div>
+        </table>
     </>
   )
 }
