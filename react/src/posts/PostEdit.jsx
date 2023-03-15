@@ -13,11 +13,9 @@ export const PostEdit = () => {
     const { id } = useParams();
     let navigate = useNavigate();
 
-    const [error,setError] = useState("")
-    const [ avis, setAvis] = useState("");
-
    
     let { authToken } = useContext(UserContext)
+    let [error,setError]  = useState ("")
     let [ formulari,setFormulari] = useState({});
 
 
@@ -25,12 +23,12 @@ export const PostEdit = () => {
     console.log(id)
           
 
-    const getPost = async () => {
+    const getPlace = async () => {
       try {
       
 
         console.log("Inicio lectura");
-        const data = await fetch ("https://backend.insjoaquimmir.cat/api/posts/"+id,{
+        const data = await fetch ("https://backend.insjoaquimmir.cat/api/places/"+id,{
                   headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -43,8 +41,10 @@ export const PostEdit = () => {
 
         console.log(resposta.data)
         
+
         setFormulari({
-              body: resposta.data.body,
+              name: resposta.data.name,
+              description: resposta.data.description,
               upload:"",
               latitude: resposta.data.latitude,
               longitude: resposta.data.longitude,
@@ -93,7 +93,7 @@ export const PostEdit = () => {
     useEffect(() => {
      
     
-              getPost();      
+              getPlace();      
    
          }, []) 
 
@@ -102,9 +102,10 @@ export const PostEdit = () => {
 
         e.preventDefault();
     
-        let {body,upload,latitude,longitude,visibility}=formulari;
+        let {name,description,upload,latitude,longitude,visibility}=formulari;
         const formData = new FormData();
-        formData.append("body", body);
+        formData.append("name", name);
+        formData.append("description", description);
         formData.append("upload", upload);
         formData.append("latitude", latitude);
         formData.append("longitude", longitude);
@@ -112,11 +113,11 @@ export const PostEdit = () => {
     
     
     
-        console.log("Editant un Post....")
+        console.log("Editant un Lloc....")
         console.log(formulari)
-        console.log(JSON.stringify({ body,upload,latitude,longitude,visibility }))
+        console.log(JSON.stringify({ name,description,upload,latitude,longitude,visibility }))
         // Enviam dades a l'aPI i recollim resultat
-        fetch ("https://backend.insjoaquimmir.cat/api/posts/"+id,{
+        fetch ("https://backend.insjoaquimmir.cat/api/places/"+id,{
             headers: {
                 'Accept': 'application/json',
                 //'Content-type': 'multipart/form-data',
@@ -135,9 +136,8 @@ export const PostEdit = () => {
                 {
                     
                     console.log(authToken)
-                    setAvis("Post modificat correctament")
                     //setAfegir(false); // Tornem al llistat
-                    navigate("/posts/")
+                    navigate("/places/")
                 }
                 else
                 {
@@ -158,13 +158,22 @@ export const PostEdit = () => {
 
     
     {/* <form method="post" action="" enctype="multipart/form-data"> */}
-    
+    <div className="py-9 flex flex-col gap-y-2">
+        <label className="text-gray-600" htmlFor="Name">Nom</label>
+        <input
+            type="text"
+            name="name"
+            value= { formulari.name }
+            className="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400"
+            onChange={ handleChange}
+        />
+    </div>
 
     <div className="w-1/3">
   <label className="text-gray-600">Descripció</label>
   <textarea
-    name="body"
-    value= { formulari.body }
+    name="description"
+    value= { formulari.description }
     className="
       w-full
       h-32
@@ -233,7 +242,6 @@ export const PostEdit = () => {
   
 </select>
 <div className="py-9">
-{ avis ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-green-50 px-4 ring-2 ring-green-200 ">{avis}</div>) : (<></>)  }
 { error ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-red-50 mb-4 px-4 ring-2 ring-red-200 ">{error}</div>) : (<></>)  }
 <button onClick={editar}  type="submit" className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
     Editar Entrada

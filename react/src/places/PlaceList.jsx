@@ -5,49 +5,12 @@ import { UserContext } from '../userContext';
 
 export const PlaceList = ({v, deletePlace}) => {
   
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-
-    // const deletePlace = (id,e) => {
-  
-    //   e.preventDefault();
-    
-    //   let confirma = confirm("Estas  segur?")
-    
-    //   if (confirma)
-    //   {
-    //     fetch ("https://backend.insjoaquimmir.cat/api/places/"+id,{
-        
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json',
-    //             'Authorization': 'Bearer ' + authToken
-    //         },
-    //         method: "DELETE",
-           
-    //     }
-    //     ).then( data => data.json() )
-    //     .then (resposta => { 
-            
-    //             console.log(resposta); 
-    //             if (resposta.success == true )
-    //             {
-    //                 console.log("OK")
-    //                 // provoca el refrescat del component i la reexecució de useEffect
-    //                 setRefresca(true);
-                    
-    //             }
-    //         } ) 
+      let { usuari, setUsuari,authToken,setAuthToken,email,setEmail } = useContext(UserContext)
     
     
-    
-    //   }
-    
-    
-    // }
     return (
   
-  <>
-  { }
+  
   
         <tr key={ v.id } className="bg-gray-100 border-b">
         {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td> */}
@@ -78,7 +41,7 @@ export const PlaceList = ({v, deletePlace}) => {
         </td>
         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
         <Link to={"/places/"+v.id} className="w-max text-cyan-600"> 👁️ </Link>
-        { v.author.email === usuari ? 
+        { v.author.email === email ? 
         (
             <>
               
@@ -92,7 +55,7 @@ export const PlaceList = ({v, deletePlace}) => {
       </tr>
   
   
-      </>
+  
   
   
     )

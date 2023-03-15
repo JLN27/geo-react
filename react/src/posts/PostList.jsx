@@ -3,54 +3,56 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
 
-export const PostList = ({v, deletePost}) => {
+export const PostList = ({v, setRefresca}) => {
   
     let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
 
-    // const deletePost = (id,e) => {
+    const deletePost = (id,e) => {
   
-    //   e.preventDefault();
+      e.preventDefault();
     
-    //   let confirma = confirm("Estas  segur?")
+      let confirma = confirm("Estas  segur?")
     
-    //   if (confirma)
-    //   {
-    //     fetch ("https://backend.insjoaquimmir.cat/api/posts/"+id,{
+      if (confirma)
+      {
+        fetch ("https://backend.insjoaquimmir.cat/api/posts/"+id,{
         
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json',
-    //             'Authorization': 'Bearer ' + authToken
-    //         },
-    //         method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authToken
+            },
+            method: "DELETE",
            
-    //     }
-    //     ).then( data => data.json() )
-    //     .then (resposta => { 
+        }
+        ).then( data => data.json() )
+        .then (resposta => { 
             
-    //             console.log(resposta); 
-    //             if (resposta.success == true )
-    //             {
-    //                 console.log("OK")
-    //                 // provoca el refrescat del component i la reexecució de useEffect
-    //                 setRefresca(true);
+                console.log(resposta); 
+                if (resposta.success == true )
+                {
+                    console.log("OK")
+                    // provoca el refrescat del component i la reexecució de useEffect
+                    setRefresca(true);
                     
-    //             }
-    //         } ) 
+                }
+            } ) 
     
     
     
-    //   }
+      }
     
     
-    // }
+    }
     return (
   
   
   
         <tr key={ v.id } className="bg-gray-100 border-b">
         {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td> */}
-        
+        <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+          { v.name }
+        </td>
         <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
         { v.body.substring(0,8)+"..." }
         </td>

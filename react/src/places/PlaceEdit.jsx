@@ -69,11 +69,11 @@ export const PlaceEdit = () => {
       setError("");
       if (e.target.type && e.target.type==="file")
       {
-        console.log(event.target.files[0].name)
+        console.log(e.target.files[0].name)
         setFormulari({
 
           ...formulari,
-          [e.target.name] : event.target.files[0] 
+          [e.target.name] : e.target.files[0] 
   
         })
 

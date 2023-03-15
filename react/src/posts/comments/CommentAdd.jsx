@@ -1,21 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import { useContext } from "react";
+import { useForm } from "../../hooks/useForm";
 import { UserContext } from "../../userContext";
 import { CommentsContext } from "./commentsContext";
-import { useForm } from '../../hooks/useForm';
-
 
 export const CommentAdd = ({ id }) => {
   let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
+  //const [comment, setComment] = useState("");
 
-  let { setAdd, setRefresca, commentsCount, setCommentsCount } = useContext(CommentsContext);
+  const {formState, onInputChange, onResetForm } = useForm({ comment: "" })
+  const { comment } = formState
 
-  const { formState, onInputChange, onResetForm } = useForm({
-    comment : "",
-    });
-    
-const {comment} = formState
+
+  let { setAdd, setRefresca, commentsCount, setCommentsCount } =
+    useContext(CommentsContext);
 
   const addComment = async () => {
     let data = await fetch(
@@ -29,13 +28,14 @@ const {comment} = formState
         },
         method: "POST",
         // body: JSON.stringify({ name,description,upload,latitude,longitude,visibility })
-        body: JSON.stringify(formState),
+        body: JSON.stringify({ comment }),
       }
     );
     let resposta = await data.json();
     console.log(resposta);
     if (resposta.success == true) {
       console.log("Todo bien");
+      //setComment("");
       setRefresca(true);
       setCommentsCount(commentsCount + 1);
     } else {
@@ -82,10 +82,14 @@ const {comment} = formState
                   onClick={addComment}
                   type="button"
                   class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100"
-                  value="Post Review"
+                  value="Post Comment"
                 />
-                <input  onClick={ onResetForm } type='button' class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100" value='RESET'/>
-
+                 <input
+                  onClick={onResetForm}
+                  type="button"
+                  class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100"
+                  value="Reset"
+                />
               </div>
             </div>
           </div>

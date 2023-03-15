@@ -2,8 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { UserContext } from "../userContext";
+import { useDispatch, useSelector } from "react-redux";
+
 import "leaflet/dist/leaflet.css";
 
 import "../App.css";
@@ -13,16 +15,38 @@ import { Marker, Popup, MapContainer, TileLayer, useMap } from "react-leaflet";
 import { PlacesMenu } from "./PlacesMenu";
 import { ReviewAdd } from "./reviews/ReviewAdd";
 import { ReviewsList } from "./reviews/ReviewsList";
+import { useFetch } from "../hooks/useFetch";
+import { placeMarksReducer } from "./placemark/placeMarksReducer";
+import { useReducer } from "react";
+import { addmark, ismarked } from "../slices/placeMarkSlice";
 // import { MarkerLayer, Marker } from "react-leaflet-marker";
 
-import { useDispatch, useSelector } from "react-redux";
-import { addplaceMark, ismarked } from "../slices/placeMarkSlice";
+
+const initialState = [];
+
+const init = () => {
+  // Si localstorage tornes null tornariem un array buit
+  return JSON.parse(localStorage.getItem("placemarks")) || [];
+};
+
 
 export const PlacesShow = () => {
-  const { placeMarks, isMarked } = useSelector((state) => state.placeMarks)
-  const dispatch = useDispatch();
-  const { id } = useParams();
+  
+  // const [stateMarks, dispatchMarks] = useReducer(
+  //   placeMarksReducer,
+  //   initialState,
+  //   init
+  // );
 
+  const { placeMarks,isMarked } = useSelector(state => state.placeMarks)
+  // const { isMarked } = useSelector(state => state.isMarked)
+
+  const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
+  console.log(pathname);
+
+  const { id } = useParams();
   let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
 
   let [place, setPlace] = useState({});
@@ -35,10 +59,47 @@ export const PlacesShow = () => {
   // Emprem isLoading, per rendertizar només quan ja s'ha carregat el place
   let [isLoading, setIsLoading] = useState(true);
   let [favorited, setFavorited] = useState(false);
-  let [favorites, setFavorites] = useState(0)
+  let [favorites, setFavorites] = useState(0);
+  //const [marked,setMarked] = useState(false)
+
+ 
+
+  const anotaPlace = () => {
+    //e.preventDefault()
+    
+    const dada = {
+      id: place.id,
+      name: place.name,
+      description: place.description,
+      route: pathname,
+    };
+
+    dispatch(addmark( dada))
+    //setMarked(true)
+    console.log(dada);
+
+    // const action = { 
+    //   type: "AddMark",
+    //   payload: dada,
+    // };
+    //dispatchMarks(action);
+    // executarem un note add
+  };
+
+  const test_mark = (id) =>{
+
+
+    console.log(placeMarks.filter( placemark => placemark.id == id))
+
+    if (placeMarks.filter( placemark => placemark.id == id).length > 0)
+        return true
+    else 
+      return false 
+
+  }
+
 
   const unfavourite = async () => {
-
     setFavorited(false);
     console.log("Not Favorited");
     const data = await fetch(
@@ -55,12 +116,9 @@ export const PlacesShow = () => {
     const resposta = await data.json();
     if (resposta.success == true) {
       setFavorited(false);
-      setFavorites(favorites-1)
-      
+      setFavorites(favorites - 1);
     }
-  
-
-  }
+  };
   const favourite = async () => {
     try {
       const data = await fetch(
@@ -78,8 +136,7 @@ export const PlacesShow = () => {
 
       if (resposta.success == true) {
         setFavorited(true);
-        setFavorites(favorites+1)
-        
+        setFavorites(favorites + 1);
       } else {
         setFavorited(false);
         console.log("Epp, algo ha passat ");
@@ -87,8 +144,6 @@ export const PlacesShow = () => {
     } catch (e) {
       console.log(e);
     }
-
-
   };
   const test_favourite = async () => {
     try {
@@ -145,6 +200,8 @@ export const PlacesShow = () => {
       );
       const resposta = await data.json();
 
+
+
       // Faria falta control·lar possible error
 
       console.log(resposta.data);
@@ -154,11 +211,16 @@ export const PlacesShow = () => {
       // per a que el .map del jsx pugui iterar l'únic
       // element
       setPlace(resposta.data);
-      setFavorites (resposta.data.favorites_count)
-      console.log(resposta.data.favorites_count)
-      console.log(place);
+      setFavorites(resposta.data.favorites_count);
+      //console.log(resposta.data.favorites_count);
+      //console.log(place);
+
+      //setMarked(test_mark(resposta.data.id))  
+
       // Ara podem dir que ja s'ha carregat place i es pot renderitzar
       setIsLoading(false);
+      //console.log("pre marked "+ place.id)
+
 
       // Actualitzem la vble d'estat places
       //setPlaces(resposta.data);
@@ -172,9 +234,22 @@ export const PlacesShow = () => {
   };
   // Sempre necessari, o al actualitzar l'state torna a executar-ho i entra
   // en bucle
+
+  useEffect(() => {
+    //console.log("Aqui estoy");
+    //console.log(stateMarks)
+    localStorage.setItem("placemarks", JSON.stringify(placeMarks));
+
+
+  }, [placeMarks]);
+
   useEffect(() => {
     getPlaces();
     test_favourite();
+    console.log("pre-marked "+ id)
+    dispatch(ismarked(id))
+
+
   }, []);
 
   const position = [43.92853, 2.14255];
@@ -203,27 +278,6 @@ export const PlacesShow = () => {
           }
         });
     }
-  };
-
-  useEffect(() => {
-    localStorage.setItem("marksPlaces", JSON.stringify(placeMarks));
-  }, [placeMarks]);
-
-  const { pathname } = useLocation()
-
-  const onFormSubmit = (event) => {
-    event.preventDefault();
-    if (place.description.length <= 1) return;
-
-    const newplaceMark = {
-      id: new Date().getTime(),
-      name: place.name,
-      description: place.description,
-      link:pathname,
-    };
-
-    console.log("Abans del dispatch");
-    dispatch(addplaceMark(newplaceMark));
   };
 
   return (
@@ -268,10 +322,6 @@ export const PlacesShow = () => {
               </div>
               <p className=" bg-yellow-100">{place.description}</p>
               <div className="mt-10 h-12 max-h-full md:max-h-screen">
-              <button onClick={ (e) => { onFormSubmit(e), console.log("click")}}
-        className="">
-         MARK
-      </button><br /> <br />
                 {/* <MapContainer  style={{ height: 280 }} center={[43.92853, 2.14255]} zoom={12} scrollWheelZoom={false}>
   <TileLayer
     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -305,22 +355,35 @@ export const PlacesShow = () => {
                 ) : (
                   <></>
                 )}
+                { !isMarked ? (<button
+                  className="bg-blue-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 h-10 md:h-10 uppercase"
+                  onClick={(e) => anotaPlace(e)}
+                >
+                  DESA
+                </button>) : (<button
+                  className="bg-blue-200 text-white font-bold py-2 px-4 h-10 md:h-10 uppercase"
+                >
+                  DESAT
+                </button>)}
+                
+                
+                
                 {favorited ? (
-                  <a
+                  <button
                     href="#"
                     onClick={(e) => unfavourite(id, e)}
                     className="bg-blue-300 hover:bg-blue-400 text-white font-bold py-2 px-4 h-10 md:h-10 uppercase"
                   >
                     - ❤️ {favorites}
-                  </a>
+                  </button>
                 ) : (
-                  <a
+                  <button
                     href="#"
                     onClick={(e) => favourite(id, e)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 h-10 md:h-10 uppercase"
                   >
                     + ❤️ {favorites}
-                  </a>
+                  </button>
                 )}
 
                 {/* <ReviewAdd id={place.id}/> */}

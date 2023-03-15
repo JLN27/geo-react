@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react';
 import { UserContext } from '../userContext';
 
-export const PlaceGrid = ({v, setRefresca} ) => {
+export const PlaceGrid = ({v, reRender} ) => {
 
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
 
-  console.log(v)
+  //console.log(v)
 
 
   const deletePlace = (id,e) => {
@@ -36,7 +36,7 @@ export const PlaceGrid = ({v, setRefresca} ) => {
               {
                   console.log("ok")
                   // provoca el refrescat del component i la reexecució de useEffect
-                  setRefresca(true);
+                  reRender();
                   
               }
           } ) 

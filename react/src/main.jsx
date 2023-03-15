@@ -6,9 +6,12 @@ import './index.css'
 
 import { BrowserRouter } from 'react-router-dom'
 import { Map } from './components/aplicacio/Map'
-
+//import { Formuletis } from './Formuletis'
 import { store } from './store'
 import { Provider } from 'react-redux'
+
+
+
 
 <link
   rel="stylesheet"
@@ -18,10 +21,12 @@ import { Provider } from 'react-redux'
 />
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+  <BrowserRouter>
+  <Provider store={store} >
+   
+      <App />      
+   
   </Provider>
+  </BrowserRouter>
    
 )

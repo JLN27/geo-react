@@ -12,6 +12,7 @@ import { Icon } from "leaflet";
 import { Marker, Popup, useMapEvents ,MapContainer, TileLayer, useMap } from 'react-leaflet'
 import { PlacesMenu } from './PlacesMenu';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const PlacesAdd = ({ setAfegir }) => {
 
@@ -20,9 +21,8 @@ export const PlacesAdd = ({ setAfegir }) => {
 
   const [position, setPosition] = useState(null)
   let [ formulari,setFormulari] = useState({});
-  const [ avis, setAvis] = useState("");
-  const [error, setError] = useState("")
 
+  const navigate= useNavigate();
 
   
 
@@ -73,10 +73,6 @@ export const PlacesAdd = ({ setAfegir }) => {
   const handleChange = (e)=> {
 
       e.preventDefault();
-
-      // Esborrem qualsevol possible avís o error
-      setError("");
-      setAvis("");
 
 
       if (e.target.type && e.target.type==="file")
@@ -140,15 +136,12 @@ export const PlacesAdd = ({ setAfegir }) => {
                 
                 console.log(authToken)
                 //setAfegir(false); // Tornem al llistat
-                setAvis("Place introduit correctament")
-
-
+                navigate(-1)
             }
             else
             {
 
               console.log("S\'ha produit un error")
-              setError(resposta.message)
 
             }
         } ) 
@@ -205,6 +198,7 @@ export const PlacesAdd = ({ setAfegir }) => {
   <div className="mb-3 w-96">
     <label htmlFor="formFile" className="form-label inline-block mb-2 text-gray-600">Imatge PNG, JPG or GIF (MAX. 800x400px)</label>
     <input name="upload" 
+    
     onChange={ handleChange}
     className="form-control
     block
@@ -257,8 +251,6 @@ export const PlacesAdd = ({ setAfegir }) => {
 <button onClick={afegir}  type="submit" className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
     Afegir Entrada
     </button>
-    { error ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200 ">{error}</div>) : (<></>)  }
-    { avis ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-green-50 px-4 ring-2 ring-green-200 ">{avis}</div>) : (<></>)  }
 
     
   </div>

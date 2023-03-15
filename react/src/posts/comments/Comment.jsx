@@ -9,7 +9,8 @@ import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
 
 export const Comment = ({ comment }) => {
   let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
-  let { setAdd, setRefresca, commentsCount, setCommentsCount } = useContext(CommentsContext);
+  let { setAdd, setRefresca, commentsCount, setCommentsCount } =
+    useContext(CommentsContext);
   const formatter = buildFormatter(catStrings);
 
   console.log(comment)
@@ -34,7 +35,14 @@ export const Comment = ({ comment }) => {
           comment.post.id +
           "/comments/" +
           comment.id,
-        headers
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + authToken,
+            },
+            method: "DELETE",
+          }
       );
       const resposta = await data.json();
 

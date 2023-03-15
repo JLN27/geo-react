@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { UserContext } from "../userContext";
 import "leaflet/dist/leaflet.css";
 
@@ -13,10 +13,30 @@ import { Marker, Popup, MapContainer, TileLayer, useMap } from "react-leaflet";
 import { PostsMenu } from "./PostsMenu";
 import { CommentAdd } from "./comments/CommentAdd";
 import { CommentsList } from "./comments/CommentsList";
+import { useDispatch, useSelector } from "react-redux";
+import { addmark, ismarked } from "../slices/postMarkSlice";
 // import { MarkerLayer, Marker } from "react-leaflet-marker";
 
+
+// const initialState = [];
+
+// const init = () => {
+//   // Si localstorage tornes null tornariem un array buit
+//   return JSON.parse(localStorage.getItem("postmarks")) || [];
+// };
+
 export const Post = () => {
+
   const { id } = useParams();
+  console.log("el id el id el id "+id)
+
+  const { postMarks,isMarked } = useSelector(state => state.postMarks)
+  //const { isMarked } = useSelector(state => state.isMarked)
+
+  const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
+
 
   let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
 
@@ -31,6 +51,41 @@ export const Post = () => {
   let [isLoading, setIsLoading] = useState(true);
   let [liked, setLiked] = useState(false);
   let [likes, setLikes] = useState(0);
+
+
+  const anotaPost = () => {
+    //e.preventDefault()
+    
+    const dada = {
+      id: post.id,
+      name: post.id,
+      description: post.body,
+      route: pathname,
+    };
+
+    dispatch(addmark( dada))
+    //setMarked(true)
+    console.log(dada);
+
+    // const action = { 
+    //   type: "AddMark",
+    //   payload: dada,
+    // };
+    //dispatchMarks(action);
+    // executarem un note add
+  };
+
+  const test_mark = (id) =>{
+
+
+    console.log(postMarks.filter( postmark => postmark.id == id))
+
+    if (postMarks.filter( postmark => postmark.id == id).length > 0)
+        return true
+    else 
+      return false 
+
+  }
 
   const unlike = async () => {
     setLiked(false);
@@ -160,9 +215,20 @@ export const Post = () => {
   };
   // Sempre necessari, o al actualitzar l'state torna a executar-ho i entra
   // en bucle
+
+  useEffect(() => {
+    //console.log("Aqui estoy");
+    //console.log(stateMarks)
+    localStorage.setItem("postmarks", JSON.stringify(postMarks));
+
+
+  }, [postMarks]);
+
   useEffect(() => {
     getPost();
     test_like();
+    console.log("ghghghghghhgghgh "+id) 
+    dispatch(ismarked(id))
   }, []);
 
   const position = [43.92853, 2.14255];
@@ -217,9 +283,9 @@ export const Post = () => {
             </div>
 
             <div className="max-w-xl">
-              {/* <h2 className="bg-blue-300 col-span-1 text-xl font-semibold">
+              <h2 className="bg-blue-300 col-span-1 text-xl font-semibold">
                 {post.name}
-              </h2> */}
+              </h2>
               <span className="bg-blue-200 col-span-1 block pb-2 text-sm dark:text-gray-400">
                 Enviada per: {post.author.name}
               </span>
@@ -231,7 +297,7 @@ export const Post = () => {
               </span>
 
               <div className="bg-orange-100 py-3 text-x2 font-semibold">
-                Cos
+                Descripció
               </div>
               <p className=" bg-yellow-100">{post.body}</p>
               <div className="mt-10 h-12 max-h-full md:max-h-screen">
@@ -268,6 +334,17 @@ export const Post = () => {
                 ) : (
                   <></>
                 )}
+                 { !isMarked ? (<button
+                  className="bg-blue-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 h-10 md:h-10 uppercase"
+                  onClick={(e) => anotaPost(e)}
+                >
+                  DESA
+                </button>) : (<button
+                  className="bg-blue-200 text-white font-bold py-2 px-4 h-10 md:h-10 uppercase"
+                >
+                  DESAT
+                </button>)}
+
                 {liked ? (
                   <a
                     href="#"

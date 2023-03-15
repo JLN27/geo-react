@@ -33,7 +33,14 @@ export const Review = ({ review }) => {
           review.place.id +
           "/reviews/" +
           review.id,
-        headers
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + authToken,
+            },
+            method: "DELETE",
+          }
       );
       const resposta = await data.json();
 

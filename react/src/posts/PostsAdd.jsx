@@ -17,16 +17,16 @@ import {
 } from "react-leaflet";
 import { PostsMenu } from "./PostsMenu";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const PostsAdd = ({ setAfegir }) => {
 
   let { authToken } = useContext(UserContext);
 
-  const [position, setPosition] = useState(null);
-  const [formulari, setFormulari] = useState({});
-  const [error,setError] = useState("")
-  const [ avis, setAvis] = useState("");
+  const navigate = useNavigate();
 
+  const [position, setPosition] = useState(null);
+  let [formulari, setFormulari] = useState({});
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((pos) => {
@@ -80,22 +80,22 @@ export const PostsAdd = ({ setAfegir }) => {
   const afegir = (e) => {
     e.preventDefault();
 
-    let { body, upload, latitude, longitude, visibility } =
+    let { name, description, upload, latitude, longitude, visibility } =
       formulari;
     const formData = new FormData();
-    
-    formData.append("body", body);
+    formData.append("name", name);
+    formData.append("description", description);
     formData.append("upload", upload);
     formData.append("latitude", latitude);
     formData.append("longitude", longitude);
     formData.append("visibility", visibility);
 
-    console.log("Afegint un Post....");
+    console.log("Afegint un Lloc....");
     console.log(formulari);
     console.log(
       JSON.stringify({
-    
-        body,
+        name,
+        description,
         upload,
         latitude,
         longitude,
@@ -103,7 +103,7 @@ export const PostsAdd = ({ setAfegir }) => {
       })
     );
     // Enviam dades a l'aPI i recollim resultat
-    fetch("https://backend.insjoaquimmir.cat/api/posts", {
+    fetch("https://backend.insjoaquimmir.cat/api/places", {
       headers: {
         Accept: "application/json",
         //'Content-type': 'multipart/form-data',
@@ -118,10 +118,10 @@ export const PostsAdd = ({ setAfegir }) => {
         console.log(resposta);
         if (resposta.success == true) {
           console.log(authToken);
-          //setAfegir(false); // Tornem al llistat
-          setAvis("Missatge pemjat correctament")
+          setAfegir(false); // Tornem al llistat
+          navigate(-1)
+
         } else {
-          setError(resposta.message)
           console.log("S'ha produit un error");
         }
       });
@@ -129,20 +129,31 @@ export const PostsAdd = ({ setAfegir }) => {
 
   const tornar = (e) => {
     e.preventDefault();
-    //setAfegir(false);
+    setAfegir(false);
   };
 
   return (
     <>
       <div className="py-9 pl-9">
         {/* <form method="post" action="" enctype="multipart/form-data"> */}
-       
+        <div className="py-9 flex flex-col gap-y-2">
+          <label className="text-gray-600" htmlFor="Name">
+            Nom
+          </label>
+          <input
+            type="text"
+            value={formulari.name}
+            name="name"
+            className="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400"
+            onChange={handleChange}
+          />
+        </div>
 
         <div className="w-1/3">
-          <label className="text-gray-600">Comentari</label>
+          <label className="text-gray-600">Descripció</label>
           <textarea
-            name="body"
-            value={formulari.body}
+            name="description"
+            value={formulari.description}
             className="
       w-full
       h-32
@@ -167,6 +178,7 @@ export const PostsAdd = ({ setAfegir }) => {
               </label>
               <input
                 name="upload"
+                value={formulari.upload}
                 onChange={handleChange}
                 className="form-control
     block
@@ -234,7 +246,6 @@ export const PostsAdd = ({ setAfegir }) => {
             <option value="2">Contactes</option>
             <option value="3">Privat</option>
           </select>
-          { error ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200 ">{error}</div>) : (<></>)  }
           <div className="py-9">
             <button
               onClick={afegir}
@@ -243,10 +254,6 @@ export const PostsAdd = ({ setAfegir }) => {
             >
               Afegir Entrada
             </button>
-          </div>
-          <div className="py-9">
-          { error ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200 ">{error}</div>) : (<></>)  }
-          { avis ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-green-50 px-4 ring-2 ring-green-200 ">{avis}</div>) : (<></>)  }
           </div>
         </div>
         {/* </form> */}

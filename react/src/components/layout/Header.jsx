@@ -6,7 +6,7 @@ import { UserContext } from '../../userContext';
 
 export const Header = () => {
 
-    let { authToken,setAuthToken } = useContext(UserContext)
+    let { authToken,setAuthToken, email,setEmail } = useContext(UserContext)
     let [ usuari,setUsuari] = useState("")
     let [ roles, setRoles] = useState([]);
     
@@ -33,6 +33,7 @@ export const Header = () => {
                {
                    console.log(resposta);
                    setUsuari(resposta.user.name)
+                   setEmail(resposta.user.email)
                    setRoles(resposta.roles)
                  
                }
@@ -92,15 +93,14 @@ export const Header = () => {
       <div className="flex items-center justify-between">
 
           <div className="flex items-center">
-          <div class="w-14 h-14 bg-yellow-500 rounded-full flex items-center justify-center font-bold text-white text-xs">GEOMIR</div>
+          <div className="w-14 h-14 bg-yellow-500 rounded-full flex items-center justify-center font-bold text-white text-xs">GEOMIR</div>
 
 
               <div className="pl-9 ">
                   <Link to="/places">Places </Link>  
-                  <Link to="/posts">Posts </Link>
+                  <Link to="/posts">Posts </Link>  
                   <Link to="/todos">ToDos </Link>  
-                  <Link to="/about">About </Link>
-                  <Link to="/places/marks">PlacesMarks </Link>  
+                  <Link to="/about">About </Link>  
 
               </div>
           </div>

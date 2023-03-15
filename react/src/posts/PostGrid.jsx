@@ -9,6 +9,8 @@ export const PostGrid = ({v, setRefresca} ) => {
 
   console.log(v)
 
+  
+
 
   const deletePost = (id,e) => {
 
@@ -36,7 +38,6 @@ export const PostGrid = ({v, setRefresca} ) => {
               {
                   console.log("ok")
                   // provoca el refrescat del component i la reexecució de useEffect
-                  setRefresca(true);
                   
               }
           } ) 
@@ -53,7 +54,7 @@ export const PostGrid = ({v, setRefresca} ) => {
           <div className="sm:w-7/12 pl-0 p-5">
             <div className="space-y-2">
               <div className="space-y-4">
-                
+                <h4 className="text-2xl font-semibold text-cyan-900">{v.name}</h4>
                 <p className="text-gray-600">{v.body}</p>
                 <p className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 👍 { v.comments_count }
