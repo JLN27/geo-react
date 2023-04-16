@@ -68,18 +68,7 @@ export const PlacesAdd = () => {
 
     <div className="w-1/3">
   <label className="text-gray-600">Descripció</label>
-  <textarea 
-    
-    className="
-      w-full
-      h-32
-      px-4
-      py-3
-      border-2 border-gray-300
-      rounded-sm
-      outline-none
-      focus:border-blue-400
-    "
+  <textarea className=" w-full h-32 px-4 py-3 border-2 border-gray-300 rounded-sm outline-none focus:border-blue-400"
     placeholder="Explica'ns alguna cosa d'aquest lloc..."
     {...register("description", {
       required: "Aquest camp és obligatori",
@@ -96,20 +85,8 @@ export const PlacesAdd = () => {
   <div className="mb-3 w-96">
     <label htmlFor="formFile" className="form-label inline-block mb-2 text-gray-600">Imatge PNG, JPG or GIF (MAX. 800x400px)</label>
     <input name="upload" 
-    className="form-control
-    block
-    w-full
-    px-3
-    py-1.5
-    text-base
-    font-normal
-    text-gray-700
-    bg-white bg-clip-padding
-    border border-solid border-gray-300
-    rounded
-    transition
-    ease-in-out
-    m-0
+    className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
+    border border-solid border-gray-300 rounded transition ease-in-out m-0
     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" 
     {...register("upload", {
       required: "Aquest camp és obligatori",
