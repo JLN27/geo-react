@@ -6,158 +6,58 @@ import { Navigate, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { useNavigate } from 'react-router';
 
+import { getPlace, editPlace } from '../slices/places/thunks';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 export const PlaceEdit = () => {
 
-    const { id } = useParams();
-    let navigate = useNavigate();
+  const { authToken } = useContext(UserContext);
+  const { place, error="" } = useSelector((state) => state.places);
+  const dispatch = useDispatch();
 
-   
-    let { authToken } = useContext(UserContext)
-    let [error,setError]  = useState ("")
-    let [ formulari,setFormulari] = useState({});
+  const { id } = useParams();
+  let navigate = useNavigate();
+ 
+  let [ formulari, setFormulari] = useState({});
 
-
-    //const { id } = useParams();
-    console.log(id)
-          
-
-    const getPlace = async () => {
-      try {
-      
-
-        console.log("Inicio lectura");
-        const data = await fetch ("https://backend.insjoaquimmir.cat/api/places/"+id,{
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '  + authToken 
-                  },
-                  method: "GET",
-       })
-
-        const resposta = await data.json();
-
-        console.log(resposta.data)
-        
-
-        setFormulari({
-              name: resposta.data.name,
-              description: resposta.data.description,
-              upload:"",
-              latitude: resposta.data.latitude,
-              longitude: resposta.data.longitude,
-              visibility: resposta.data.visibility.id
-
-        })
-
-      }
-      catch (e) {
-
-          console.log("S'ha produit algun error");
-      }   
-             
-     
-
-    }
-
-    const handleChange = (e)=> {
-
-      e.preventDefault();
-
-      setError("");
-      if (e.target.type && e.target.type==="file")
-      {
-        console.log(e.target.files[0].name)
-        setFormulari({
-
-          ...formulari,
-          [e.target.name] : e.target.files[0] 
-  
-        })
-
-      }
-      else {
-      // Canviem l'element de l'objecte de l'estat
+  const handleChange = (e)=> {
+    e.preventDefault();
+    if (e.target.type && e.target.type==="file")
+    {
+      console.log(e.target.files[0].name)
       setFormulari({
-
+        ...formulari,
+        [e.target.name] : e.target.files[0] 
+      })
+    } else {
+      setFormulari({
         ...formulari,
         [e.target.name] : e.target.value
-
       })
     }
-
   }
-  
-    useEffect(() => {
-     
-    
-              getPlace();      
-   
-         }, []) 
 
-  
-    const editar = (e) => {
+  useEffect(() => {
+    dispatch(getPlace(id, authToken));      
+  }, []) 
 
-        e.preventDefault();
-    
-        let {name,description,upload,latitude,longitude,visibility}=formulari;
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("description", description);
-        formData.append("upload", upload);
-        formData.append("latitude", latitude);
-        formData.append("longitude", longitude);
-        formData.append("visibility", visibility);
-    
-    
-    
-        console.log("Editant un Lloc....")
-        console.log(formulari)
-        console.log(JSON.stringify({ name,description,upload,latitude,longitude,visibility }))
-        // Enviam dades a l'aPI i recollim resultat
-        fetch ("https://backend.insjoaquimmir.cat/api/places/"+id,{
-            headers: {
-                'Accept': 'application/json',
-                //'Content-type': 'multipart/form-data',
-                'Authorization': 'Bearer ' + authToken 
-            },
-            method: "POST",
-            // body: JSON.stringify({ name,description,upload,latitude,longitude,visibility })
-            body: formData
-    
-          }
-        ).then( data => data.json() )
-        .then (resposta => { 
-            
-                console.log(resposta); 
-                if (resposta.success == true )
-                {
-                    
-                    console.log(authToken)
-                    //setAfegir(false); // Tornem al llistat
-                    navigate("/places/")
-                }
-                else
-                {
-                      setError(resposta.message)
+  useEffect(() => {
+    setFormulari({
+      name: place.name,
+      description: place.description,
+      latitude: place.latitude,
+      longitude: place.longitude,
+      visibility: place.visibility,
+    })
+  }, [place]) 
 
-                }
-            } ) 
-    
-    
-      }
 
 
   return (
    
     <>
      <div className="py-9 pl-9">
-
-
-    
-    {/* <form method="post" action="" enctype="multipart/form-data"> */}
     <div className="py-9 flex flex-col gap-y-2">
         <label className="text-gray-600" htmlFor="Name">Nom</label>
         <input
@@ -193,7 +93,6 @@ export const PlaceEdit = () => {
     <label htmlFor="formFile" className="form-label inline-block mb-2 text-gray-600">Imatge PNG, JPG or GIF (MAX. 800x400px)</label>
     <input name="upload" 
     onChange={ handleChange}
-    // value= { formulari.upload }
     className="form-control
     block
     w-full
@@ -243,7 +142,7 @@ export const PlaceEdit = () => {
 </select>
 <div className="py-9">
 { error ? (<div className="flex w-full items-center space-x-2 rounded-2xl bg-red-50 mb-4 px-4 ring-2 ring-red-200 ">{error}</div>) : (<></>)  }
-<button onClick={editar}  type="submit" className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+<button onClick={(e) => dispatch( editPlace(formulari, authToken, place)) }  type="submit" className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
     Editar Entrada
     </button>
     <button onClick={ ()=> {navigate(-1)}}  type="submit" className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
@@ -252,22 +151,9 @@ export const PlaceEdit = () => {
     
     
   </div>
-    
-  
-    
-    
-    
-    
-    
     </div>
-    {/* </form> */}
    
     </div>
-    
-    
-    
-    
-    
     </>
   )
 }

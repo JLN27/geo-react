@@ -1,13 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
-import placeMarkSlice from './slices/placeMarkSlice'
-import postMarkSlice from './slices/postMarkSlice'
-import todosSlice from './slices/todosSlice'
+import placesMarksReducer from './slices/placeMarkSlice'
+import todosReducer from './slices/todoSlice'
+import reviewSlice from './slices/reviews/reviewSlice'
+import placeSlice from './slices/places/placeSlice'
+
 
 export const store = configureStore({
-  reducer: {
-    todos: todosSlice,
-    placeMarks: placeMarkSlice,
-    postMarks: postMarkSlice,
 
-  }
+
+  reducer: {
+    todos: todosReducer,
+    placeMarks: placesMarksReducer,
+    reviews: reviewSlice,
+    places: placeSlice,
+    
+  },
 })
